@@ -5,8 +5,11 @@
   <!--    <div class="bg-[#eeeeee] bg-opacity-[10%] backdrop-blur-xl md:min-h-[calc(100vh-3em)] min-h-[calc(100vh-2em)]">-->
   <div>
     <section
-        class="md:min-h-[calc(100vh-3em)] min-h-[calc(100vh-2em)] w-full bg-cover xl:bg-center bg-right bg-no-repeat relative"
-        style="background-image: url('/src/assets/images/bookshelfs_2.jpg')">
+        class="md:min-h-[calc(100vh-3em)] min-h-[calc(100vh-2em)] w-full bg-cover xl:bg-center bg-right bg-no-repeat relative">
+      <!--        style="background-image: url('/src/assets/images/bookshelfs_2.jpg')">-->
+      <img alt=""
+           class="absolute z-[-1000] inset-0 block object-cover xl:object-center object-right w-full md:h-[calc(100vh-3em)] h-[calc(100vh-2em)]"
+           src="@/assets/images/bookshelfs_2.jpg">
       <div
           class="2xl:w-[60%] w-full 2xl:backdrop-blur-lg backdrop-blur-md border-r-[1px] border-r-white border-opacity-30 md:min-h-[calc(100vh-3em)] min-h-[calc(100vh-2em)]
 grid place-content-center px-8 select-none">
