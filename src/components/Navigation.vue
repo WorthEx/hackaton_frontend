@@ -55,28 +55,32 @@ const switchSidebar = () => {
          class="flex-col fixed z-[1000] h-screen w-full bg-black/50 backdrop-blur-2xl text-white text-[16px]"
          @click="sidebarOpened = false">
       <RouterLink
-          class="w-full p-4 active:ml-1 transition-all flex items-center justify-between hover:ml-1 hover:text-[#d4a26f]"
+          class="w-full p-4 active:ml-1 transition-all flex items-center justify-between hover:ml-1 hover:text-[#d4a26f]
+          animate-fade-down animate-duration-[300ms] animate-ease-out"
           to="/"
           @click="switchSidebar">
         Главная
         <i class="bi bi-arrow-right-short text-[20px]"></i>
       </RouterLink>
       <RouterLink
-          class="w-full p-4 active:ml-1 transition-all flex items-center justify-between hover:ml-1 hover:text-[#d4a26f]"
+          class="w-full p-4 active:ml-1 transition-all flex items-center justify-between hover:ml-1 hover:text-[#d4a26f]
+          animate-fade-down animate-duration-[300ms] animate-ease-out animate-delay-100"
           to="/books"
           @click="switchSidebar">
         Книги
         <i class="bi bi-arrow-right-short text-[20px]"></i>
       </RouterLink>
       <RouterLink
-          class="w-full p-4 active:ml-1 transition-all flex items-center justify-between hover:ml-1 hover:text-[#d4a26f]"
+          class="w-full p-4 active:ml-1 transition-all flex items-center justify-between hover:ml-1 hover:text-[#d4a26f]
+          animate-fade-down animate-duration-[300ms] animate-ease-out animate-delay-200"
           to="/forums"
           @click="switchSidebar">
         Форумы
         <i class="bi bi-arrow-right-short text-[20px]"></i>
       </RouterLink>
       <RouterLink
-          class="w-full p-4 active:ml-1 transition-all flex items-center justify-between hover:ml-1 hover:text-[#d4a26f]"
+          class="w-full p-4 active:ml-1 transition-all flex items-center justify-between hover:ml-1 hover:text-[#d4a26f]
+          animate-fade-down animate-duration-[300ms] animate-ease-out animate-delay-300"
           to="/sign-in"
           @click="switchSidebar">
         Вход

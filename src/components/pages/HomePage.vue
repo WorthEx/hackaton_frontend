@@ -38,7 +38,8 @@ animate-fade-up animate-duration-[1500ms] animate-ease-out animate-delay-100">
       <i class="bi bi-chevron-compact-down absolute bottom-2 left-1/2 -translate-x-1/2
       text-white md:text-5xl text-3xl animate-pulse animate-infinite animate-duration-[2000ms] animate-ease-in"></i>
     </section>
-    <section class="size-full relative bg-[#101415] md:pt-24 pt-10 md:pb-12 pb-4">
+    <section class="size-full relative bg-[#101415] md:pt-24 pt-10 md:pb-12 pb-4 overflow-hidden">
+      <!--      <div class="ring-[#d4a26f] ring-[10px] rounded-full absolute top-[-300px] right-[-300px] size-[1500px]"></div>-->
       <Container>
         <div class="flex xl:flex-row xl:gap-0 md:gap-6 gap-2 flex-col size-full">
           <div class="flex flex-col md:gap-6 gap-2 text-white basis-1/2 md:pr-6 xl:order-1 order-2 select-none">
@@ -111,7 +112,7 @@ animate-fade-up animate-duration-[1500ms] animate-ease-out animate-delay-100">
               expedita labore laudantium minima odit quae quasi, qui reprehenderit soluta suscipit.
             </div>
             <div class="xl:flex xl:flex-col gap-3 xl:absolute xl:bottom-0
-                        grid md:grid-cols-2 grid-cols-1">
+                        grid sm:grid-cols-2 grid-cols-1">
               <div class="flex gap-3 items-center">
                 <i class="bi bi-geo-alt-fill text-[#d4a26f] text-[20px]"></i>
                 <span class="md:text-[20px] text-[14px] font-light select-text">Караганда, Улица Ерубаева, 44</span>
@@ -121,17 +122,21 @@ animate-fade-up animate-duration-[1500ms] animate-ease-out animate-delay-100">
                 <span class="md:text-[20px] text-[14px] font-light select-text">2 парковки рядом</span>
               </div>
               <div class="flex gap-3 items-center">
-                <i class="bi bi-globe-americas text-[#d4a26f] text-[20px]"></i>
-                <span class="md:text-[20px] text-[14px] font-light select-text">www.karlib.kz</span>
+                <i class="bi bi-globe-americas text-[#d4a26f] text-[20px] "></i>
+                <span
+                    class="md:text-[20px] text-[14px] font-light select-text transition-all hover:underline decoration-[#d4a26f]"><a
+                    href="https://www.karlib.kz">www.karlib.kz</a></span>
               </div>
               <div class="flex gap-3 items-center">
                 <i class="bi bi-facebook text-[#d4a26f] text-[20px]"></i>
-                <span class="md:text-[20px] text-[14px] font-light select-text"><a
+                <span
+                    class="md:text-[20px] text-[14px] font-light select-text transition-all hover:underline decoration-[#d4a26f]"><a
                     href="https://www.facebook.com/karlib.kz">@karlib.kz</a></span>
               </div>
               <div class="flex gap-3 items-center">
                 <i class="bi bi-instagram text-[#d4a26f] text-[20px]"></i>
-                <span class="md:text-[20px] text-[14px] font-light select-text"><a
+                <span
+                    class="md:text-[20px] text-[14px] font-light select-text transition-all hover:underline decoration-[#d4a26f]"><a
                     href="https://www.instagram.com/karlib_kz/">@karlib_kz</a></span>
               </div>
               <div class="flex gap-3 items-start">
@@ -146,6 +151,7 @@ animate-fade-up animate-duration-[1500ms] animate-ease-out animate-delay-100">
         </div>
       </Container>
     </section>
+
   </div>
 </template>
 
