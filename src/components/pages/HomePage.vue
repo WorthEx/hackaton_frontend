@@ -102,23 +102,34 @@ animate-fade-up animate-duration-[1500ms] animate-ease-out animate-delay-100">
       </Container>
     </section>
     <section class="size-full relative bg-[#101415] md:pt-12 pt-6">
-      <Swiper :centeredSlides="true"
-              :slides-per-view="2"
-              :spaceBetween="30" class="h-[800px]">
-        <SwiperSlide class="w-full">
-          <img alt="" class="h-full object-cover select-none" src="@/assets/images/library_photo_1.jpg">
+      <Swiper :breakpoints="{
+         1080: {
+          slidesPerView: 2,
+          spaceBetween: 30
+         }
+      }"
+              :centeredSlides="true"
+              :loop="true"
+              :slides-per-view="1" class="md:h-[800px] h-[600px]">
+        <SwiperSlide class="grid place-items-center place-content-center">
+          <img alt="" class="h-full object-cover select-none"
+               src="@/assets/images/library_photo_1.jpg">
         </SwiperSlide>
-        <SwiperSlide class="w-full">
-          <img alt="" class="h-full object-cover select-none" src="@/assets/images/library_photo_2.jpg">
+        <SwiperSlide class="grid place-items-center place-content-center">
+          <img alt="" class="h-full object-cover select-none"
+               src="@/assets/images/library_photo_2.jpg">
         </SwiperSlide>
-        <SwiperSlide class="w-full">
-          <img alt="" class="h-full object-cover select-none" src="@/assets/images/gallery_1.jpg">
+        <SwiperSlide class="grid place-items-center place-content-center">
+          <img alt="" class="h-full object-cover select-none"
+               src="@/assets/images/gallery_1.jpg">
         </SwiperSlide>
-        <SwiperSlide class="w-full">
-          <img alt="" class="h-full object-cover select-none" src="@/assets/images/gallery_2.jpg">
+        <SwiperSlide class="grid place-items-center place-content-center">
+          <img alt="" class="h-full object-cover select-none"
+               src="@/assets/images/gallery_2.jpg">
         </SwiperSlide>
-        <SwiperSlide class="w-full">
-          <img alt="" class="h-full object-cover select-none" src="@/assets/images/gallery_3.jpg">
+        <SwiperSlide class="grid place-items-center place-content-center">
+          <img alt="" class="h-full object-cover select-none"
+               src="@/assets/images/gallery_3.jpg">
         </SwiperSlide>
       </Swiper>
     </section>
