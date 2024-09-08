@@ -111,8 +111,14 @@ animate-fade-up animate-duration-[1500ms] animate-ease-out animate-delay-100">
         <SwiperSlide class="w-full">
           <img alt="" class="h-full object-cover select-none" src="@/assets/images/library_photo_2.jpg">
         </SwiperSlide>
-        <SwiperSlide v-for="photo in gallery" class="w-full">
-          <img :src="`src/assets/images/${photo}`" alt="" class="h-full  object-cover select-none">
+        <SwiperSlide class="w-full">
+          <img alt="" class="h-full object-cover select-none" src="@/assets/images/gallery_1.jpg">
+        </SwiperSlide>
+        <SwiperSlide class="w-full">
+          <img alt="" class="h-full object-cover select-none" src="@/assets/images/gallery_2.jpg">
+        </SwiperSlide>
+        <SwiperSlide class="w-full">
+          <img alt="" class="h-full object-cover select-none" src="@/assets/images/gallery_3.jpg">
         </SwiperSlide>
       </Swiper>
     </section>
