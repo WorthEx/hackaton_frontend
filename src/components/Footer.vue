@@ -4,7 +4,9 @@ import Container from "@/components/Container.vue";
 </script>
 
 <template>
-  <div class="select-none bg-black py-6">
+  <div
+      class="select-none bg-black py-6 relative">
+    <!--    <div class="absolute bg-[#d4a26f] w-full h-[3px] inset-x-0 top-0"></div>-->
     <Container class="flex h-full flex-col items-center justify-between gap-4">
       <div
           class="grid w-full grid-cols-1 justify-items-center gap-x-4 gap-y-12 py-5 text-[0.6rem] text-white sm:grid-cols-2 xl:grid-cols-4">
