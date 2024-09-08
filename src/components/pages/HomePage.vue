@@ -94,7 +94,7 @@ animate-fade-up animate-duration-[1500ms] animate-ease-out animate-delay-100">
     </section>
     <section class="size-full relative bg-[#101415] md:pb-24 pb-10 md:pt-12 pt-4">
       <Container>
-        <div class="flex xl:flex-row md:gap-6 gap-2 flex-col size-full select-none">
+        <div class="flex xl:flex-row md:gap-6 gap-4 flex-col size-full select-none">
           <div class="xl:basis-[55%] xl:order-1 order-2">
             <iframe
                 allowfullscreen=""
@@ -110,7 +110,8 @@ animate-fade-up animate-duration-[1500ms] animate-ease-out animate-delay-100">
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur delectus deserunt dolores eos est
               expedita labore laudantium minima odit quae quasi, qui reprehenderit soluta suscipit.
             </div>
-            <div class="flex flex-col gap-3 absolute bottom-0">
+            <div class="xl:flex xl:flex-col gap-3 xl:absolute xl:bottom-0
+                        grid md:grid-cols-2 grid-cols-1">
               <div class="flex gap-3 items-center">
                 <i class="bi bi-geo-alt-fill text-[#d4a26f] text-[20px]"></i>
                 <span class="md:text-[20px] text-[14px] font-light select-text">Караганда, Улица Ерубаева, 44</span>
