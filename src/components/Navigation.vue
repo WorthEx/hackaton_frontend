@@ -43,11 +43,6 @@ const switchSidebar = () => {
               Форумы
             </RouterLink>
             <RouterLink
-                class="after:block after:h-[1px] hover:after:w-full after:w-0 after:bg-[#d4a26f] after:duration-150 after:transition-all transition-all active:text-[#d4a26f]"
-                to="/bookshelfs">
-              Книжные полки
-            </RouterLink>
-            <RouterLink
                 class="hover:text-[#d4a26f] text-white transition-all"
                 to="/sign-in"><i
                 class="bi bi-person-circle"></i></RouterLink>
@@ -57,7 +52,8 @@ const switchSidebar = () => {
       </Container>
     </div>
     <div :class="sidebarOpened ? 'flex md:hidden' : 'hidden'"
-         class="flex-col fixed z-[1000] h-screen w-full bg-black/50 backdrop-blur-2xl text-white text-[16px]">
+         class="flex-col fixed z-[1000] h-screen w-full bg-black/50 backdrop-blur-2xl text-white text-[16px]"
+         @click="sidebarOpened = false">
       <RouterLink
           class="w-full p-4 active:ml-1 transition-all flex items-center justify-between hover:ml-1 hover:text-[#d4a26f]"
           to="/"
@@ -77,13 +73,6 @@ const switchSidebar = () => {
           to="/forums"
           @click="switchSidebar">
         Форумы
-        <i class="bi bi-arrow-right-short text-[20px]"></i>
-      </RouterLink>
-      <RouterLink
-          class="w-full p-4 active:ml-1 transition-all flex items-center justify-between hover:ml-1 hover:text-[#d4a26f]"
-          to="/bookshelfs"
-          @click="switchSidebar">
-        Книжные полки
         <i class="bi bi-arrow-right-short text-[20px]"></i>
       </RouterLink>
       <RouterLink

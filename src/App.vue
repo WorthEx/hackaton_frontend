@@ -15,7 +15,6 @@ document.title = "Карагандинская ОУНБ им. Н.В. Гогол�
     <Navigation/>
     <div
         class="mt-[2em] md:mt-[3em]">
-      <!--        style="background-image: url('/src/assets/images/bookshelfs_darken.png')">-->
       <RouterView/>
     </div>
     <Footer/>
