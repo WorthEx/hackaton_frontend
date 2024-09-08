@@ -124,6 +124,16 @@ animate-fade-up animate-duration-[1500ms] animate-ease-out animate-delay-100">
                 <i class="bi bi-globe-americas text-[#d4a26f] text-[20px]"></i>
                 <span class="md:text-[20px] text-[14px] font-light select-text">www.karlib.kz</span>
               </div>
+              <div class="flex gap-3 items-center">
+                <i class="bi bi-facebook text-[#d4a26f] text-[20px]"></i>
+                <span class="md:text-[20px] text-[14px] font-light select-text"><a
+                    href="https://www.facebook.com/karlib.kz">@karlib.kz</a></span>
+              </div>
+              <div class="flex gap-3 items-center">
+                <i class="bi bi-instagram text-[#d4a26f] text-[20px]"></i>
+                <span class="md:text-[20px] text-[14px] font-light select-text"><a
+                    href="https://www.instagram.com/karlib_kz/">@karlib_kz</a></span>
+              </div>
               <div class="flex gap-3 items-start">
                 <i class="bi bi-telephone-fill text-[#d4a26f] text-[20px]"></i>
                 <div class="flex flex-col">
