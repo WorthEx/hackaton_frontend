@@ -38,7 +38,7 @@ animate-fade-up animate-duration-[1500ms] animate-ease-out animate-delay-100">
       <i class="bi bi-chevron-compact-down absolute bottom-2 left-1/2 -translate-x-1/2
       text-white md:text-5xl text-3xl animate-pulse animate-infinite animate-duration-[2000ms] animate-ease-in"></i>
     </section>
-    <section class="size-full relative bg-[#101415] md:pt-24 pt-10 md:pb-12 pb-2">
+    <section class="size-full relative bg-[#101415] md:pt-24 pt-10 md:pb-12 pb-4">
       <Container>
         <div class="flex xl:flex-row xl:gap-0 md:gap-6 gap-2 flex-col size-full">
           <div class="flex flex-col md:gap-6 gap-2 text-white basis-1/2 md:pr-6 xl:order-1 order-2 select-none">
@@ -92,27 +92,45 @@ animate-fade-up animate-duration-[1500ms] animate-ease-out animate-delay-100">
         </div>
       </Container>
     </section>
-    <section class="size-full relative bg-[#101415] md:pb-24 pb-10 md:pt-12 pt-2">
+    <section class="size-full relative bg-[#101415] md:pb-24 pb-10 md:pt-12 pt-4">
       <Container>
-        <div class="flex xl:flex-row md:gap-6 gap-2 flex-col size-full">
-          <div class="basis-[55%]">
+        <div class="flex xl:flex-row md:gap-6 gap-2 flex-col size-full select-none">
+          <div class="xl:basis-[55%] xl:order-1 order-2">
             <iframe
                 allowfullscreen=""
-                class="rounded-lg size-full" loading="lazy"
+                class="rounded-lg size-full md:min-h-[600px] min-h-[300px]" loading="lazy"
                 referrerpolicy="no-referrer-when-downgrade"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1530.9614269789993!2d73.0905193709089!3d49.80938046053592!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x42434720b4f75d1d%3A0x7da71fed79692ddb!2z0KPQvdC40LLQtdGA0YHQsNC70YzQvdCw0Y8g0L3QsNGD0YfQvdCw0Y8g0LHQuNCx0LvQuNC-0YLQtdC60LA!5e0!3m2!1sru!2skz!4v1725794411543!5m2!1sru!2skz"
-                width="600"></iframe>
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1530.9614269789993!2d73.0905193709089!3d49.80938046053592!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x42434720b4f75d1d%3A0x7da71fed79692ddb!2z0KPQvdC40LLQtdGA0YHQsNC70YzQvdCw0Y8g0L3QsNGD0YfQvdCw0Y8g0LHQuNCx0LvQuNC-0YLQtdC60LA!5e0!3m2!1sru!2skz!4v1725794411543!5m2!1sru!2skz"></iframe>
           </div>
-          <div class="flex flex-col md:gap-6 gap-2 text-white select-none basis-[45%]">
+          <div
+              class="relative flex flex-col min-h-full md:gap-6 gap-2 text-white select-none xl:basis-[45%] order-1 xl:order-2">
             <span
                 class="font-bold md:text-[40px] text-[32px] ">Как нас найти?</span>
-            <article class="font-light md:text-[20px] text-[14px] text-justify w-full">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur atque quas temporibus voluptatem.
-              Aliquid asperiores beatae deserunt doloremque, eligendi est expedita, maxime optio reprehenderit
-              repudiandae saepe unde? Accusamus architecto assumenda consectetur ducimus est eveniet impedit incidunt
-              magnam molestiae nam nemo obcaecati perferendis perspiciatis quisquam quod repellendus rerum sit tempora,
-              totam?
-            </article>
+            <div class="font-light md:text-[20px] text-[14px] text-justify w-full">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur delectus deserunt dolores eos est
+              expedita labore laudantium minima odit quae quasi, qui reprehenderit soluta suscipit.
+            </div>
+            <div class="flex flex-col gap-3 absolute bottom-0">
+              <div class="flex gap-3 items-center">
+                <i class="bi bi-geo-alt-fill text-[#d4a26f] text-[20px]"></i>
+                <span class="md:text-[20px] text-[14px] font-light select-text">Караганда, Улица Ерубаева, 44</span>
+              </div>
+              <div class="flex gap-3 items-center">
+                <i class="bi bi-p-circle-fill text-[#d4a26f] text-[20px]"></i>
+                <span class="md:text-[20px] text-[14px] font-light select-text">2 парковки рядом</span>
+              </div>
+              <div class="flex gap-3 items-center">
+                <i class="bi bi-globe-americas text-[#d4a26f] text-[20px]"></i>
+                <span class="md:text-[20px] text-[14px] font-light select-text">www.karlib.kz</span>
+              </div>
+              <div class="flex gap-3 items-start">
+                <i class="bi bi-telephone-fill text-[#d4a26f] text-[20px]"></i>
+                <div class="flex flex-col">
+                  <span class="md:text-[20px] text-[14px] font-light select-text">7 (7212) 56-76-55</span>
+                  <span class="md:text-[20px] text-[14px] font-light select-text">7 (7212) 56-74-64</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </Container>
