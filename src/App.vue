@@ -12,8 +12,8 @@ import Navigation from "@/components/Navigation.vue";
   <div id="app" class="relative h-full">
     <Navigation/>
     <div
-        class="md:min-h-[calc(100vh-3em)] min-h-[calc(100vh-2em)] bg-cover bg-bottom bg-no-repeat"
-        style="background-image: url('/src/assets/images/bookshelfs_darken.png')">
+        class="mt-[2em] md:mt-[3em]">
+      <!--        style="background-image: url('/src/assets/images/bookshelfs_darken.png')">-->
       <RouterView/>
     </div>
     <Footer/>

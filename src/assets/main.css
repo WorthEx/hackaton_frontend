@@ -7,3 +7,8 @@
 body {
     background-color: #eeeeee;
 }
+
+::selection {
+    color: white;
+    background: #d4a26f;
+}
