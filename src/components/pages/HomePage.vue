@@ -1,13 +1,21 @@
 <script setup>
 import Container from "@/components/Container.vue";
 import {Swiper, SwiperSlide} from "swiper/vue";
+import {Autoplay, Navigation} from "swiper/modules";
 import 'swiper/css';
+import {ref} from "vue";
 
-const gallery = [
-  "gallery_1.jpg",
-  "gallery_2.jpg",
-  "gallery_3.jpg",
-]
+const swiperRef = ref()
+
+const setBeforeSlideChangedStyles = (el) => {
+  el.el.classList.add('duration-[600ms]', '2xl:rotate-[2deg]', '2xl:skew-x-[4deg]')
+  el.el.classList.remove('duration-[400ms]')
+}
+
+const setAfterSlideChangedStyles = (el) => {
+  el.el.classList.add('duration-[400ms]')
+  el.el.classList.remove('duration-[600ms]', '2xl:rotate-[2deg]', '2xl:skew-x-[4deg]')
+}
 </script>
 
 <template>
@@ -15,7 +23,7 @@ const gallery = [
       class="md:min-h-[calc(100vh-3em)] min-h-[calc(100vh-2em)] w-full relative">
     <img alt=""
          class="absolute z-[-1000] inset-0 block object-cover xl:object-center object-right w-full md:h-[calc(100vh-3em)] h-[calc(100vh-2em)] select-none"
-         src="@/assets/images/bookshelfs_2.jpg">
+         src="@/assets/images/bookshelfs_2_comp.jpg">
     <div
         class="2xl:w-[60%] w-full 2xl:backdrop-blur-lg backdrop-blur-md border-r-[1px] border-r-white border-opacity-30 md:min-h-[calc(100vh-3em)] min-h-[calc(100vh-2em)]
 grid place-content-center px-8 select-none">
@@ -50,9 +58,14 @@ animate-fade-up animate-duration-[1500ms] animate-ease-out animate-delay-100">
     <Container>
       <div class="flex xl:flex-row xl:gap-0 md:gap-6 gap-2 flex-col size-full">
         <div class="flex flex-col md:gap-6 gap-2 text-white basis-1/2 md:pr-6 xl:order-1 order-2 select-none">
-            <span
-                class="font-bold md:text-[40px] text-[32px] before:opacity-0 hover:before:opacity-100 before:transition-all before:content-['#']
-                before:text-[#d4a26f] before:block before:absolute md:before:left-[-.2em] w-fit before:left-[10rem]">О библиотеке</span>
+          <!--            <span-->
+          <!--                class="font-bold md:text-[40px] text-[32px] w-fit -->
+          <!--                before:opacity-0 hover:before:opacity-100 before:transition-all before:content-['#']-->
+          <!--                before:text-[#d4a26f] before:block before:absolute md:before:left-[-.2em]-->
+          <!--                before:left-[10rem]">-->
+          <span
+              class="font-bold md:text-[40px] text-[32px] w-fit">
+              О библиотеке</span>
           <article class="font-light md:text-[20px] text-[14px] text-justify w-full">Lorem ipsum dolor sit amet,
             consectetur
             adipisicing
@@ -101,35 +114,64 @@ animate-fade-up animate-duration-[1500ms] animate-ease-out animate-delay-100">
     </Container>
   </section>
   <section class="size-full relative bg-[#101415] md:pt-12 pt-6">
-    <Swiper :breakpoints="{
-         1080: {
+    <Swiper
+        ref="swiperRef"
+        :autoplay="{
+            pauseOnMouseEnter: true,
+            delay: 4000,
+          }"
+        :breakpoints="{
+          1440: {
+          slidesPerView: 1.5,
+          spaceBetween: 20,
+         },
+         1536:{
+           speed: 1100
+         },
+         1920: {
+          slidesPerView: 1.75,
+          spaceBetween: 20,
+         },
+         2560: {
           slidesPerView: 2,
-          spaceBetween: 30
-         }
-      }"
-            :centeredSlides="true"
-            :loop="true"
-            :slides-per-view="1" class="md:h-[800px] h-[600px]">
+          spaceBetween: 20,
+         },
+        }"
+        :centeredSlides="true"
+        :loop="true"
+        :modules="[Autoplay, Navigation]"
+        :navigation="{
+          nextEl: '.next-slide',
+          prevEl: '.prev-slide',
+        }"
+        :slides-per-view="1"
+        class="md:h-[800px] h-[600px] cursor-grab active:cursor-grabbing relative transition-all ease-out"
+        @slide-change-transition-start="el =>{setBeforeSlideChangedStyles(el)}"
+        @slide-change-transition-end="el =>{setAfterSlideChangedStyles(el)}">
       <SwiperSlide class="grid place-items-center place-content-center">
-        <img alt="" class="h-full object-cover select-none"
-             src="@/assets/images/library_photo_1.jpg">
+        <img alt="" class="size-full object-cover select-none"
+             loading="lazy" src="@/assets/images/library_photo_1.jpg">
       </SwiperSlide>
       <SwiperSlide class="grid place-items-center place-content-center">
-        <img alt="" class="h-full object-cover select-none"
-             src="@/assets/images/library_photo_2.jpg">
+        <img alt="" class="size-full object-cover select-none"
+             loading="lazy" src="@/assets/images/library_photo_2.jpg">
       </SwiperSlide>
       <SwiperSlide class="grid place-items-center place-content-center">
-        <img alt="" class="h-full object-cover select-none"
-             src="@/assets/images/gallery_1.jpg">
+        <img alt="" class="size-full object-cover select-none"
+             loading="lazy" src="@/assets/images/gallery_1.jpg">
       </SwiperSlide>
       <SwiperSlide class="grid place-items-center place-content-center">
-        <img alt="" class="h-full object-cover select-none"
-             src="@/assets/images/gallery_2.jpg">
+        <img alt="" class="size-full object-cover select-none"
+             loading="lazy" src="@/assets/images/gallery_2.jpg">
       </SwiperSlide>
       <SwiperSlide class="grid place-items-center place-content-center">
-        <img alt="" class="h-full object-cover select-none"
-             src="@/assets/images/gallery_3.jpg">
+        <img alt="" class="size-full object-cover select-none"
+             loading="lazy" src="@/assets/images/gallery_3.jpg">
       </SwiperSlide>
+      <i class="next-slide bi bi-chevron-compact-right absolute z-[500] md:right-2 right-0 top-1/2 -translate-y-1/2
+      hover:text-white text-white/60 transition-colors md:text-5xl text-3xl cursor-pointer"></i>
+      <i class="prev-slide bi bi-chevron-compact-left absolute z-[500] md:left-2 left-0 top-1/2 -translate-y-1/2
+      hover:text-white text-white/60 transition-colors md:text-5xl text-3xl cursor-pointer"></i>
     </Swiper>
   </section>
   <section class="size-full relative bg-[#101415] md:pb-24 pb-10 md:pt-24 pt-12">

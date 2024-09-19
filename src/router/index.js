@@ -7,15 +7,15 @@ const routes = [
 		component: () => import("@/components/pages/HomePage.vue"),
 	},
 	{
+		path: "/sign-up",
+		name: "Sign up",
+		component: () => import("@/components/pages/SignUpPage.vue"),
+	},
+	{
 		path: "/sign-in",
-		name: "Sign in",
+		name: "Sign In",
 		component: () => import("@/components/pages/SignInPage.vue"),
 	},
-	// {
-	// 	path: "/sign-up",
-	// 	name: "Sign up",
-	// 	component: () => import("@/components/pages/SignUpPage.vue"),
-	// },
 	// {
 	// 	path: "/books",
 	// 	name: "Books",
