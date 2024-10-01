@@ -8,13 +8,13 @@ import {ref} from "vue";
 const swiperRef = ref()
 
 const setBeforeSlideChangedStyles = (el) => {
-  el.el.classList.add('duration-[600ms]', '2xl:rotate-[2deg]', '2xl:skew-x-[4deg]')
-  el.el.classList.remove('duration-[400ms]')
+  el.el.classList.add('duration-[200ms]', '2xl:rotate-[5deg]', '2xl:skew-x-[2deg]', '2xl:scale-[70%]')
+  el.el.classList.remove('duration-[700ms]', 'scale-full')
 }
 
 const setAfterSlideChangedStyles = (el) => {
-  el.el.classList.add('duration-[400ms]')
-  el.el.classList.remove('duration-[600ms]', '2xl:rotate-[2deg]', '2xl:skew-x-[4deg]')
+  el.el.classList.add('duration-[700ms]', 'scale-full')
+  el.el.classList.remove('duration-[200ms]', '2xl:rotate-[5deg]', '2xl:skew-x-[2deg]', '2xl:scale-[70%]')
 }
 </script>
 
@@ -22,7 +22,7 @@ const setAfterSlideChangedStyles = (el) => {
   <section
       class="md:min-h-[calc(100vh-3em)] min-h-[calc(100vh-2em)] w-full relative">
     <img alt=""
-         class="absolute z-[-1000] inset-0 block object-cover xl:object-center object-right w-full md:h-[calc(100vh-3em)] h-[calc(100vh-2em)] select-none"
+         class="absolute z-[-1000] inset-0 block object-cover xl:object-center object-right w-full md:h-[calc(100vh-3em)] h-[calc(100vh-2em)] select-none pointer-events-none"
          src="@/assets/images/bookshelfs_2_comp.jpg">
     <div
         class="2xl:w-[60%] w-full 2xl:backdrop-blur-lg backdrop-blur-md border-r-[1px] border-r-white border-opacity-30 md:min-h-[calc(100vh-3em)] min-h-[calc(100vh-2em)]

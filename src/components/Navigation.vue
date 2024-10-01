@@ -83,7 +83,7 @@ const switchSidebar = () => {
           animate-fade-down animate-duration-[300ms] animate-ease-out animate-delay-300"
           to="/sign-in"
           @click="switchSidebar">
-        Вход
+        Аккаунт
         <i class="bi bi-arrow-right-short text-[20px]"></i>
       </RouterLink>
     </div>

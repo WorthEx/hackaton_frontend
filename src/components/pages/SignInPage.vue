@@ -1,62 +1,120 @@
 <script setup>
-const signIn = () => {
+import {onMounted, ref} from "vue";
+import loginAPI from "@/apis/LoginAPI.js";
+import string_constants from "@/string_constants.js";
+import router from "@/router/index.js";
 
+const loginData = ref(
+    {
+      username: "",
+      password: "",
+    }
+)
+const passwordHidden = ref(true)
+const errorOccurred = ref(false)
+
+onMounted(async () => {
+  if (
+      localStorage.getItem(string_constants.accessToken) != null &&
+      localStorage.getItem(string_constants.accessToken) !== "null" &&
+      localStorage.getItem(string_constants.accessToken) !== undefined &&
+      localStorage.getItem(string_constants.accessToken) !== "undefined" &&
+      localStorage.getItem(string_constants.accessToken) !== ""
+  ) {
+    await router.push(`/user/${localStorage.getItem(string_constants.username)}`);
+  }
+})
+
+const signIn = async () => {
+  const response = await loginAPI.login(loginData.value)
+      .catch(_ => {
+        errorOccurred.value = true
+      })
+  if ((await response).status === 200) {
+    errorOccurred.value = false
+    localStorage.setItem(string_constants.accessToken, response.data.id_token)
+    // todo: записать в LS информацию юзера из респонса
+    // localStorage.setItem(string_constants.username, "Nate")
+    await router.push(`/user/${loginData.value.username}`)
+  }
+  loginData.value.username = ""
+  loginData.value.password = ""
 }
 </script>
 
 <template>
   <div
-      class="md:min-h-[calc(100vh-3em)] min-h-[calc(100vh-2em)] relative grid place-items-center place-content-center size-full sm:py-8 py-2">
+      class="md:min-h-[calc(100vh-3em)] min-h-[calc(100vh-2em)] relative grid place-items-center place-content-center size-full sm:py-6 py-2">
     <img alt=""
-         class="absolute z-[-500] inset-0 block object-cover xl:object-center object-right w-full md:h-[calc(100vh-3em)] h-[calc(100vh-2em)] select-none blur-md"
+         class="absolute z-[-500] inset-0 block object-cover xl:object-center object-right w-full md:h-[calc(100vh-3em)] h-[calc(100vh-2em)] select-none blur-sm pointer-events-none"
          src="@/assets/images/bookshelfs_2_comp.jpg">
     <div
-        class="bg-[#eeeeee] rounded-2xl overflow-hidden sm:shadow-[0px_0px_50px_15px_rgba(212,162,111,.35)]
+        class="bg-black/25 backdrop-blur-lg rounded-2xl ring-white/10 ring-1 overflow-hidden sm:shadow-[0px_0px_50px_15px_rgba(212,162,111,.35)]
         flex flex-row
         2xl:w-[calc(70vw)] sm:w-[calc(65vw)] w-[calc(100vw-1em)]
-        min-h-fit
-        lg:max-w-[1200px] max-h-[800px]">
+        lg:max-w-[1200px] max-h-[850px]">
       <div class="lg:block hidden xl:basis-[50%] basis-0">
         <img alt="" class="object-cover size-full select-none pointer-events-none"
              src="@/assets/images/stairs_comp.jpg">
       </div>
       <div
-          class="min-h-full px-6 py-4 sm:py-4 xl:basis-[50%] basis-full select-none flex flex-col justify-center gap-6">
-        <span class="w-full block text-center font-bold sm:text-[32px] text-[26px] leading-tight">Вход</span>
+          class="min-h-full sm:px-6 px-4 py-6 xl:basis-[50%] basis-full select-none flex flex-col justify-center gap-6 text-white">
+        <span class="w-full block text-center font-medium sm:text-[32px] text-[26px] leading-tight ">Вход</span>
         <form aria-autocomplete="none" autocomplete="off"
               class="flex flex-col gap-6"
               method="post">
-          <div class="flex flex-col gap-1">
+          <div
+              class="flex flex-col gap-1 border-b-[#C1C1C1] has-[:focus]:border-b-[#d4a26f] border-b-2 transition-colors">
             <label class="sm:text-[18px] text-[14px]" for="username">Имя пользователя</label>
             <input
-                class="font-light w-full bg-transparent border-b-[#C1C1C1] focus:border-b-[#d4a26f] border-b-2 transition-colors placeholder-opacity-70 placeholder-[#C1C1C1]
+                v-model="loginData.username"
+                class="font-light w-full bg-transparent placeholder-opacity-70 placeholder-[#C1C1C1]
               sm:text-[20px] text-[18px]"
                 name="username"
                 placeholder="OmenBestWaifu"
                 type="text">
-            <div class="ERRORS flex flex-col text-red-600 sm:text-[18px] text-[14px]">
-              <!--              <span>Чето неправильно!</span>-->
-            </div>
           </div>
-          <div class="flex flex-col gap-1">
+          <div
+              class="flex flex-col gap-1 border-b-[#C1C1C1] has-[:focus]:border-b-[#d4a26f] border-b-2 transition-colors">
             <label class="sm:text-[18px] text-[14px]" for="password">Пароль</label>
-            <input
-                class="font-light w-full bg-transparent border-b-[#C1C1C1] focus:border-b-[#d4a26f] border-b-2 transition-colors placeholder-opacity-70 placeholder-[#C1C1C1]
+            <div class="flex flex-row ">
+              <input
+                  v-if="passwordHidden"
+                  v-model="loginData.password"
+                  class="font-light w-full bg-transparent placeholder-opacity-70 placeholder-[#C1C1C1]
               sm:text-[20px] text-[18px]"
-                name="password"
-                placeholder="********"
-                type="password">
-            <div class="ERRORS flex flex-col text-red-600 sm:text-[18px] text-[14px]">
-              <!--              <span>Чето неправильно!</span>-->
+                  name="password"
+                  placeholder="********"
+                  type="password">
+              <input
+                  v-else
+                  v-model="loginData.password"
+                  class="font-light w-full bg-transparent placeholder-opacity-70 placeholder-[#C1C1C1]
+              sm:text-[20px] text-[18px]"
+                  name="password"
+                  placeholder="********"
+                  type="text">
+              <div class="flex items-center justify-center ps-2 cursor-pointer">
+                <i
+                    :class="passwordHidden ? 'bi-eye' : 'bi-eye-slash'"
+                    class="bi block transition-colors hover:text-[#d4a26f] text-white text-[20px] sm:text-[25px]"
+                    @click.prevent="passwordHidden = !passwordHidden"></i>
+              </div>
             </div>
           </div>
+          <span
+              :class="errorOccurred ? 'block' :'hidden'"
+              class="text-[#FF5F5F] sm:text-[18px] text-[14px]">Неверный логин или пароль!
+            <a class="underline"
+               href="https://www.invitro.ru/library/bolezni/28678/">Амнезия:&nbsp;симптомы&nbsp;и&nbsp;причины.</a></span>
         </form>
-        <div class="flex flex-col">
+        <div class="flex flex-col gap-1">
           <button class="w-full rounded-xl transition-all
                           bg-[#d4a26f] hover:bg-[#d4a26f]/80 text-white
-                          active:bg-transparent active:ring-[2px] active:ring-[#d4a26f] active:text-[#d4a26f] py-2
-                          sm:text-[20px] text-[16px] self-end"
-                  @click.prevent="signIn">
+                          active:bg-transparent active:ring-[2px] active:ring-[#d4a26f] active:text-[#d4a26f]
+                          focus:bg-transparent focus:ring-[2px] focus:ring-[#d4a26f] focus:text-[#d4a26f]
+                          py-2 sm:text-[20px] text-[16px] self-end" type="submit"
+                  @click.prevent.stop="signIn">
             Войти
           </button>
           <RouterLink class="mx-auto w-fit" to="/sign-up">
