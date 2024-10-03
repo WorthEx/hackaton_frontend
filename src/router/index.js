@@ -22,6 +22,11 @@ const routes = [
 	// 	component: () => import("@/components/pages/Books.vue"),
 	// },
 	{
+		path: "/auth/verify",
+		name: "Change password",
+		component: () => import("@/components/pages/RegistrationConfirmation.vue"),
+	},
+	{
 		path: "/:pathMatch(.*)*",
 		name: "NotFound",
 		component: () => import("@/components/pages/NotFound.vue"),

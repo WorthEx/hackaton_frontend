@@ -1,6 +1,6 @@
 <script setup>
 import {onMounted, ref} from "vue";
-import loginAPI from "@/apis/LoginAPI.js";
+import accountAPI from "@/apis/AccountAPI.js";
 import string_constants from "@/string_constants.js";
 import router from "@/router/index.js";
 
@@ -26,7 +26,7 @@ onMounted(async () => {
 })
 
 const signIn = async () => {
-  const response = await loginAPI.login(loginData.value)
+  const response = await accountAPI.login(loginData.value)
       .catch(_ => {
         errorOccurred.value = true
       })

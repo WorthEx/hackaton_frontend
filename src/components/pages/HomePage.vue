@@ -8,13 +8,13 @@ import {ref} from "vue";
 const swiperRef = ref()
 
 const setBeforeSlideChangedStyles = (el) => {
-  el.el.classList.add('duration-[200ms]', '2xl:rotate-[5deg]', '2xl:skew-x-[2deg]', '2xl:scale-[70%]')
-  el.el.classList.remove('duration-[700ms]', 'scale-full')
+  el.el.classList.add('duration-[400ms]', '2xl:skew-x-[-8deg]',)
+  el.el.classList.remove('duration-[300ms]', 'scale-full')
 }
 
 const setAfterSlideChangedStyles = (el) => {
-  el.el.classList.add('duration-[700ms]', 'scale-full')
-  el.el.classList.remove('duration-[200ms]', '2xl:rotate-[5deg]', '2xl:skew-x-[2deg]', '2xl:scale-[70%]')
+  el.el.classList.add('duration-[300ms]', 'scale-full')
+  el.el.classList.remove('duration-[400ms]', '2xl:skew-x-[-8deg]')
 }
 </script>
 
@@ -125,9 +125,6 @@ animate-fade-up animate-duration-[1500ms] animate-ease-out animate-delay-100">
           slidesPerView: 1.5,
           spaceBetween: 20,
          },
-         1536:{
-           speed: 1100
-         },
          1920: {
           slidesPerView: 1.75,
           spaceBetween: 20,
@@ -145,6 +142,7 @@ animate-fade-up animate-duration-[1500ms] animate-ease-out animate-delay-100">
           prevEl: '.prev-slide',
         }"
         :slides-per-view="1"
+        :speed="1000"
         class="md:h-[800px] h-[600px] cursor-grab active:cursor-grabbing relative transition-all ease-out"
         @slide-change-transition-start="el =>{setBeforeSlideChangedStyles(el)}"
         @slide-change-transition-end="el =>{setAfterSlideChangedStyles(el)}">

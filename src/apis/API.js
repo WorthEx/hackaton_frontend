@@ -1,7 +1,7 @@
 import axios from "axios";
 import string_constants from "@/string_constants.js";
 
-export default (url = 'http://127.0.0.1:6969') => {
+export default (url = 'https://librarybackend-production-41fd.up.railway.app') => {
 	const apiInstance = axios.create({
 		baseURL: url,
 		headers: {
