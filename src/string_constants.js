@@ -1,5 +1,8 @@
 export default {
 	accessToken: "ACCESS_TOKEN",
 	refreshToken: "REFRESH_TOKEN",
-	username: "USERNAME"
+	username: "USERNAME",
+	email: "EMAIL",
+	lastname: "LASTNAME",
+	firstname: "FIRSTNAME",
 }

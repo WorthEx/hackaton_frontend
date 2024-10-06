@@ -1,4 +1,4 @@
-import API from "./API.js"
+import API from "@/apis/instances/API.js"
 
 export default {
 	login(loginData) {

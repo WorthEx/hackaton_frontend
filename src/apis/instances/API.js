@@ -11,7 +11,10 @@ export default (url = 'https://librarybackend-production-41fd.up.railway.app') =
 	apiInstance.interceptors.request.use(request => {
 		if (
 			localStorage.getItem(string_constants.accessToken) != null &&
-			localStorage.getItem(string_constants.accessToken) !== "null"
+			localStorage.getItem(string_constants.accessToken) !== "null" &&
+			localStorage.getItem(string_constants.accessToken) !== undefined &&
+			localStorage.getItem(string_constants.accessToken) !== "undefined" &&
+			localStorage.getItem(string_constants.accessToken) !== ""
 		) {
 			request.headers.Authorization = `Bearer ${localStorage.getItem(string_constants.accessToken)}`
 			console.log("Added auth token!")

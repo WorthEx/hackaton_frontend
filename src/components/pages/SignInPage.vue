@@ -3,6 +3,7 @@ import {onMounted, ref} from "vue";
 import accountAPI from "@/apis/AccountAPI.js";
 import string_constants from "@/string_constants.js";
 import router from "@/router/index.js";
+import {jwtDecode} from "jwt-decode";
 
 const loginData = ref(
     {
@@ -12,6 +13,7 @@ const loginData = ref(
 )
 const passwordHidden = ref(true)
 const errorOccurred = ref(false)
+const loadingState = ref(false)
 
 onMounted(async () => {
   if (
@@ -26,20 +28,35 @@ onMounted(async () => {
 })
 
 const signIn = async () => {
-  const response = await accountAPI.login(loginData.value)
-      .catch(_ => {
-        errorOccurred.value = true
-      })
-  if ((await response).status === 200) {
-    errorOccurred.value = false
-    localStorage.setItem(string_constants.accessToken, response.data.id_token)
-    // todo: записать в LS информацию юзера из респонса
-    // localStorage.setItem(string_constants.username, "Nate")
-    await router.push(`/user/${loginData.value.username}`)
+  if (loginData.value.username && loginData.value.password) {
+    loadingState.value = true
+    try {
+      const response = await accountAPI.login(loginData.value)
+      if (response.status === 200) {
+        errorOccurred.value = false
+        const responseData = jwtDecode(response.data.jwt)
+        console.log(responseData)
+        localStorage.setItem(string_constants.accessToken, response.data.jwt)
+        localStorage.setItem(string_constants.username, responseData.sub)
+        localStorage.setItem(string_constants.firstname, responseData.firstname)
+        localStorage.setItem(string_constants.lastname, responseData.lastname)
+        localStorage.setItem(string_constants.email, responseData.email)
+        await router.push(`/user/${loginData.value.username}`)
+      }
+    } catch (_) {
+      errorOccurred.value = true
+    } finally {
+      loadingState.value = false
+      loginData.value.username = ""
+      loginData.value.password = ""
+    }
   }
-  loginData.value.username = ""
-  loginData.value.password = ""
 }
+
+document.onkeydown = async (e) => {
+  if (e.key === 'Enter') await signIn()
+}
+
 </script>
 
 <template>
@@ -109,13 +126,28 @@ const signIn = async () => {
                href="https://www.invitro.ru/library/bolezni/28678/">Амнезия:&nbsp;симптомы&nbsp;и&nbsp;причины.</a></span>
         </form>
         <div class="flex flex-col gap-1">
-          <button class="w-full rounded-xl transition-all
-                          bg-[#d4a26f] hover:bg-[#d4a26f]/80 text-white
-                          active:bg-transparent active:ring-[2px] active:ring-[#d4a26f] active:text-[#d4a26f]
-                          focus:bg-transparent focus:ring-[2px] focus:ring-[#d4a26f] focus:text-[#d4a26f]
+          <button class="w-full rounded-xl transition-all flex justify-center
+                          bg-[#d4a26f] text-white
+                          hover:bg-transparent hover:ring-[2px] hover:ring-[#d4a26f] hover:text-[#d4a26f]
+                          active:scale-[98%]
                           py-2 sm:text-[20px] text-[16px] self-end" type="submit"
                   @click.prevent.stop="signIn">
-            Войти
+            <svg v-if="loadingState" class="size-[40px]" viewBox="0 0 200 200"
+                 xmlns="http://www.w3.org/2000/svg">
+              <circle cx="40" cy="65" fill="#ffffff" r="15" stroke="#ffffff" stroke-width="2">
+                <animate attributeName="cy" begin="-.4" calcMode="spline" dur="2" keySplines=".5 0 .5 1;.5 0 .5 1"
+                         repeatCount="indefinite" values="65;135;65;"></animate>
+              </circle>
+              <circle cx="100" cy="65" fill="#ffffff" r="15" stroke="#ffffff" stroke-width="2">
+                <animate attributeName="cy" begin="-.2" calcMode="spline" dur="2" keySplines=".5 0 .5 1;.5 0 .5 1"
+                         repeatCount="indefinite" values="65;135;65;"></animate>
+              </circle>
+              <circle cx="160" cy="65" fill="#ffffff" r="15" stroke="#ffffff" stroke-width="2">
+                <animate attributeName="cy" begin="0" calcMode="spline" dur="2" keySplines=".5 0 .5 1;.5 0 .5 1"
+                         repeatCount="indefinite" values="65;135;65;"></animate>
+              </circle>
+            </svg>
+            <span v-else>Войти</span>
           </button>
           <RouterLink class="mx-auto w-fit" to="/sign-up">
               <span
