@@ -16,6 +16,11 @@ const routes = [
 		name: "Sign In",
 		component: () => import("@/components/pages/SignInPage.vue"),
 	},
+	{
+		path: "/user/:userId",
+		name: "Account page",
+		component: () => import("@/components/pages/AccountPage.vue"),
+	},
 	// {
 	// 	path: "/books",
 	// 	name: "Books",
