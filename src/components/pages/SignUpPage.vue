@@ -8,7 +8,7 @@ const signUp = () => {
   <div
       class="md:min-h-[calc(100vh-3em)] min-h-[calc(100vh-2em)] relative grid place-items-center place-content-center size-full sm:py-6 py-2">
     <img alt=""
-         class="absolute z-[-500] inset-0 block object-cover xl:object-center object-right w-full md:h-[calc(100vh-3em)] h-[calc(100vh-2em)] select-none blur-sm pointer-events-none"
+         class="absolute z-[-500] inset-0 block object-cover brightness-[70%] xl:object-center object-right w-full md:h-[calc(100vh-3em)] h-[calc(100vh-2em)] select-none blur-sm pointer-events-none"
          src="@/assets/images/bookshelfs_2_comp.jpg">
     <div
         class="bg-black/25 backdrop-blur-lg rounded-2xl ring-white/10 ring-1 overflow-hidden sm:shadow-[0px_0px_50px_15px_rgba(212,162,111,.35)]

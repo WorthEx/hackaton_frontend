@@ -22,7 +22,7 @@ const setAfterSlideChangedStyles = (el) => {
   <section
       class="md:min-h-[calc(100vh-3em)] min-h-[calc(100vh-2em)] w-full relative">
     <img alt=""
-         class="absolute z-[-1000] inset-0 block object-cover xl:object-center object-right w-full md:h-[calc(100vh-3em)] h-[calc(100vh-2em)] select-none pointer-events-none"
+         class="absolute z-[-1000] inset-0 block object-cover xl:object-center brightness-[70%] object-right w-full md:h-[calc(100vh-3em)] h-[calc(100vh-2em)] select-none pointer-events-none"
          src="@/assets/images/bookshelfs_2_comp.jpg">
     <div
         class="2xl:w-[60%] w-full 2xl:backdrop-blur-lg backdrop-blur-md border-r-[1px] border-r-white border-opacity-30 md:min-h-[calc(100vh-3em)] min-h-[calc(100vh-2em)]

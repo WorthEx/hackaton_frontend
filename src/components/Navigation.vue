@@ -1,6 +1,7 @@
 <script setup>
 import {ref} from "vue";
 import Container from "@/components/Container.vue";
+import {logout, toAccountPageLink, tokenSaved} from "@/utils.js";
 
 const sidebarOpened = ref(false)
 
@@ -18,7 +19,7 @@ const switchSidebar = () => {
     <div
         class="h-[2em] md:h-[3em] w-full bg-black select-none text-white fixed top-0 z-[999] after:bg-[#d4a26f] after:w-full after:h-[3px] after:absolute">
       <Container>
-        <div class="flex justify-between items-center h-full px-2 text-[14px] md:text-[16px]">
+        <div class="flex justify-between items-center h-full text-[14px] md:text-[16px]">
           <RouterLink class="flex md:gap-2 items-center h-full" to="/">
             <img alt="" class="w-[61.6px] h-[48px] cursor-pointer md:scale-100 scale-[80%]"
                  src="@/assets/images/logo.png">
@@ -43,9 +44,12 @@ const switchSidebar = () => {
               Форумы
             </RouterLink>
             <RouterLink
-                class="hover:text-[#d4a26f] text-white transition-all"
-                to="/sign-in"><i
+                :to="tokenSaved() ? toAccountPageLink() : '/sign-in'"
+                class="hover:text-[#d4a26f] text-white transition-all"><i
                 class="bi bi-person-circle"></i></RouterLink>
+            <i v-if="tokenSaved()"
+               class="bi bi-box-arrow-right text-[14px] md:text-[18px] hover:text-[#d4a26f] cursor-pointer text-white transition-all"
+               @click="logout()"></i>
           </nav>
           <i class="bi bi-list text-white md:hidden block text-[20px]" @click="switchSidebar"></i>
         </div>
@@ -79,13 +83,18 @@ const switchSidebar = () => {
         <i class="bi bi-arrow-right-short text-[20px]"></i>
       </RouterLink>
       <RouterLink
+          :to="tokenSaved() ? toAccountPageLink() : '/sign-in'"
           class="w-full p-4 active:ml-1 transition-all flex items-center justify-between hover:ml-1 hover:text-[#d4a26f]
           animate-fade-down animate-duration-[300ms] animate-ease-out animate-delay-300"
-          to="/sign-in"
           @click="switchSidebar">
         Аккаунт
         <i class="bi bi-arrow-right-short text-[20px]"></i>
       </RouterLink>
+      <div v-if="tokenSaved()" class="w-full p-4 active:ml-1 transition-all flex items-center justify-between hover:ml-1 hover:text-[#d4a26f]
+          animate-fade-down animate-duration-[300ms] animate-ease-out animate-delay-[400ms]" @click="logout()">
+        Выйти
+        <i class="bi bi-arrow-right-short text-[20px]"></i>
+      </div>
     </div>
   </div>
 </template>

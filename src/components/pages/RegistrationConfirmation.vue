@@ -8,12 +8,12 @@ const confirmationCode = route.query.code
 const confirmationStatus = ref('loading')
 
 const verifyRegistration = async (confirmationCode) => {
-  const response = await accountAPI.verifyRegistration(confirmationCode)
-      .catch(_ => {
-        confirmationStatus.value = 'error'
-      })
-  console.log((await response).status)
-  if ((await response).status === 200) confirmationStatus.value = 'success'
+  try {
+    const response = await accountAPI.verifyRegistration(confirmationCode)
+    if (response.status === 200) confirmationStatus.value = 'success'
+  } catch (e) {
+    confirmationStatus.value = 'error'
+  }
 }
 
 onMounted(async _ => {
@@ -25,20 +25,20 @@ onMounted(async _ => {
   <div
       class="md:min-h-[calc(100vh-3em)] min-h-[calc(100vh-2em)] relative grid place-items-center place-content-center size-full lg:px-12 px-4">
     <img alt=""
-         class="absolute z-[-500] inset-0 block object-cover xl:object-center object-right w-full md:h-[calc(100vh-3em)] h-[calc(100vh-2em)] select-none blur-xl pointer-events-none"
+         class="absolute z-[-500] inset-0 block object-cover xl:object-center brightness-[70%] object-right w-full md:h-[calc(100vh-3em)] h-[calc(100vh-2em)] select-none blur-xl pointer-events-none"
          src="@/assets/images/bookshelfs_2_comp.jpg">
 
     <div class="flex flex-col justify-center items-center">
       <div
           v-if="confirmationStatus === 'loading'"
           class="lg:text-[42px] text-[18px] font-medium text-[#eeeeee] select-none text-center">
-        Registration confirmation <span class="rounded-md bg-[#d4a26f] px-1.5 py-1">in&nbsp;progress</span>
+        Registration confirmation <span class="rounded-md bg-[#d4a26f] px-1.5 sm:py-1 py-0.5">in&nbsp;progress</span>
       </div>
       <div
           v-else-if="confirmationStatus === 'error'"
           class="lg:text-[42px] text-[18px] font-medium text-[#eeeeee] select-none text-center">
         Unexpected error has occurred! Please let your backend dev sleep and <span
-          class="rounded-md bg-[#d4a26f] px-1.5 py-1">try&nbsp;again&nbsp;later.</span>
+          class="rounded-md bg-[#d4a26f] px-1.5 sm:py-1 py-0.5">try&nbsp;again&nbsp;later.</span>
       </div>
       <div
           v-else

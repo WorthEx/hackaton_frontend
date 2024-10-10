@@ -14,7 +14,7 @@ document.title = "Карагандинская ОУНБ им. Н.В. Гогол�
   <div id="app" class="relative h-full">
     <Navigation/>
     <div
-        class="mt-[2em] md:mt-[3em] h-full">
+        class="mt-[2em] md:mt-[3em] size-full">
       <RouterView/>
     </div>
     <Footer/>

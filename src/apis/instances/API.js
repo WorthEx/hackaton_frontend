@@ -1,5 +1,6 @@
 import axios from "axios";
 import string_constants from "@/string_constants.js";
+import {tokenSaved} from "@/utils.js";
 
 export default (url = 'https://librarybackend-production-41fd.up.railway.app') => {
 	const apiInstance = axios.create({
@@ -9,13 +10,7 @@ export default (url = 'https://librarybackend-production-41fd.up.railway.app') =
 		},
 	})
 	apiInstance.interceptors.request.use(request => {
-		if (
-			localStorage.getItem(string_constants.accessToken) != null &&
-			localStorage.getItem(string_constants.accessToken) !== "null" &&
-			localStorage.getItem(string_constants.accessToken) !== undefined &&
-			localStorage.getItem(string_constants.accessToken) !== "undefined" &&
-			localStorage.getItem(string_constants.accessToken) !== ""
-		) {
+		if (tokenSaved()) {
 			request.headers.Authorization = `Bearer ${localStorage.getItem(string_constants.accessToken)}`
 			console.log("Added auth token!")
 		}
