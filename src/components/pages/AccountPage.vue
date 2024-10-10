@@ -58,6 +58,10 @@ const loadPFP = async () => {
   } catch (_) {
   }
 }
+
+const copyUsername = () => {
+  navigator.clipboard.writeText(username.value)
+}
 </script>
 
 <template>
@@ -92,7 +96,7 @@ const loadPFP = async () => {
             }}</span>
           <span
               class="text-[#d4a26f] md:text-[24px] text-[16px] cursor-pointer hover:text-[#d4a26f]/80 transition-colors"
-              @click="navigator.clipboard.writeText(username.value)">@{{ username }}</span>
+              @click="copyUsername()">@{{ username }}</span>
         </div>
       </div>
     </Container>
