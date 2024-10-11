@@ -14,6 +14,7 @@ const firstname = ref("")
 const lastname = ref("")
 const email = ref("")
 const pfp = ref("");
+const showPen = ref(false)
 
 onMounted(async () => {
   if (tokenSaved()) {
@@ -91,12 +92,22 @@ const copyUsername = () => {
         </div>
         <div
             class="w-full md:mt-[75px] mt-[45px] md:py-4 py-2 md:px-[100px] px-[25px] flex flex-col leading-tight select-none">
-          <span class="text-[#eeeeee] font-bold md:text-[35px] text-[20px] ">{{
-              firstname[0] + firstname.slice(1) + " " + lastname[0] + lastname.slice(1)
-            }}</span>
+          <!-- todo назначить изменение данных -->
+          <div class="flex flex-row items-center gap-2">
+            <span class="text-[#eeeeee] font-bold md:text-[35px] text-[20px] cursor-pointer"
+                  @mouseenter="() => {showPen = true}"
+                  @mouseleave="() => {showPen = false}">{{
+                firstname[0] + firstname.slice(1) + " " + lastname[0] + lastname.slice(1)
+              }}</span>
+            <i v-if="showPen" class="bi bi-pencil-fill text-[#d4a26f] md:text-[20px] text-[16px]"></i>
+          </div>
           <span
-              class="text-[#d4a26f] md:text-[24px] text-[16px] cursor-pointer hover:text-[#d4a26f]/80 transition-colors"
+              class="text-[#9C9C9C] md:text-[24px] text-[16px] cursor-pointer hover:text-[#d4a26f]/80 transition-colors w-fit"
               @click="copyUsername()">@{{ username }}</span>
+          <!--          <div class="flex flex-row items-center gap-2 text-white mt-1">-->
+          <!--            <i class="bi bi-envelope-fill text-[#d4a26f] md:text-[20px] text-[16px]"></i>-->
+          <!--            <span class="block md:text-[20px] text-[14px]">{{ email }}</span>-->
+          <!--          </div>-->
         </div>
       </div>
     </Container>
@@ -104,5 +115,5 @@ const copyUsername = () => {
 </template>
 bruhf
 <style scoped>
-
+@import "bootstrap-icons/font/bootstrap-icons.css";
 </style>
