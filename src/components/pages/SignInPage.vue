@@ -5,6 +5,7 @@ import string_constants from "@/string_constants.js";
 import router from "@/router/index.js";
 import {jwtDecode} from "jwt-decode";
 import {tokenSaved} from "@/utils.js";
+import {useAuthStore} from "@/stores/store.js";
 
 const loginData = ref(
     {
@@ -15,6 +16,8 @@ const loginData = ref(
 const passwordHidden = ref(true)
 const errorOccurred = ref(false)
 const loadingState = ref(false)
+
+const authStore = useAuthStore()
 
 onMounted(async () => {
   if (tokenSaved()) {
@@ -30,6 +33,7 @@ const signIn = async () => {
       console.log(response)
       if (response.status === 200) {
         errorOccurred.value = false
+        authStore.isLoggedIn = true
         const responseData = jwtDecode(response.data.jwt)
         console.log(responseData)
         localStorage.setItem(string_constants.accessToken, response.data.jwt)
@@ -178,5 +182,4 @@ document.onkeydown = async (e) => {
 </template>
 
 <style scoped>
-@import "bootstrap-icons/font/bootstrap-icons.css";
 </style>

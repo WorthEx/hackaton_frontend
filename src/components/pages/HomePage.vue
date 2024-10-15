@@ -25,7 +25,7 @@ const setAfterSlideChangedStyles = (el) => {
          class="absolute z-[-1000] inset-0 block object-cover xl:object-center brightness-[70%] object-right w-full md:h-[calc(100vh-3em)] h-[calc(100vh-2em)] select-none pointer-events-none"
          src="@/assets/images/bookshelfs_2_comp.jpg">
     <div
-        class="2xl:w-[60%] w-full 2xl:backdrop-blur-lg backdrop-blur-md border-r-[1px] border-r-white border-opacity-30 md:min-h-[calc(100vh-3em)] min-h-[calc(100vh-2em)]
+        class="2xl:w-[60%] w-full 2xl:backdrop-blur-lg backdrop-blur-sm border-r-[1px] border-r-white border-opacity-30 md:min-h-[calc(100vh-3em)] min-h-[calc(100vh-2em)]
 grid place-content-center px-8 select-none">
         <span class="2xl:text-[60px] md:text-[45px] text-[30px] font-bold text-white leading-tight
       animate-fade-up animate-duration-[1500ms] animate-ease-out animate-delay-0">
@@ -233,7 +233,6 @@ animate-fade-up animate-duration-[1500ms] animate-ease-out animate-delay-100">
 </template>
 
 <style scoped>
-@import "bootstrap-icons/font/bootstrap-icons.css";
 
 .words span {
   animation: spin_words 10s infinite;

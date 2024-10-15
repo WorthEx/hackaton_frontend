@@ -25,7 +25,7 @@ onMounted(async _ => {
   <div
       class="md:min-h-[calc(100vh-3em)] min-h-[calc(100vh-2em)] relative grid place-items-center place-content-center size-full lg:px-12 px-4">
     <img alt=""
-         class="absolute z-[-500] inset-0 block object-cover xl:object-center brightness-[70%] object-right w-full md:h-[calc(100vh-3em)] h-[calc(100vh-2em)] select-none blur-xl pointer-events-none"
+         class="absolute z-[-500] inset-0 block object-cover xl:object-center brightness-[70%] object-right w-full md:h-[calc(100vh-3em)] h-[calc(100vh-2em)] select-none blur-sm pointer-events-none"
          src="@/assets/images/bookshelfs_2_comp.jpg">
 
     <div class="flex flex-col justify-center items-center">

@@ -21,5 +21,6 @@ document.title = "Карагандинская ОУНБ им. Н.В. Гогол�
   </div>
 </template>
 
-<style scoped>
+<style>
+@import "bootstrap-icons/font/bootstrap-icons.css";
 </style>

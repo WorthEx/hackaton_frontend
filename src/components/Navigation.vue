@@ -2,8 +2,11 @@
 import {ref} from "vue";
 import Container from "@/components/Container.vue";
 import {logout, toAccountPageLink, tokenSaved} from "@/utils.js";
+import {useAuthStore} from "@/stores/store.js";
 
 const sidebarOpened = ref(false)
+
+const authStore = useAuthStore()
 
 
 const switchSidebar = () => {
@@ -12,6 +15,7 @@ const switchSidebar = () => {
     document.documentElement.style.overflow = 'hidden'
   }
 }
+
 </script>
 
 <template>
@@ -44,7 +48,7 @@ const switchSidebar = () => {
               Форумы
             </RouterLink>
             <RouterLink
-                :to="tokenSaved() ? toAccountPageLink() : '/sign-in'"
+                :to="authStore.isLoggedIn ? toAccountPageLink() : '/sign-in'"
                 class="hover:text-[#d4a26f] text-white transition-all"><i
                 class="bi bi-person-circle"></i></RouterLink>
             <i v-if="tokenSaved()"
@@ -83,7 +87,7 @@ const switchSidebar = () => {
         <i class="bi bi-arrow-right-short text-[20px]"></i>
       </RouterLink>
       <RouterLink
-          :to="tokenSaved() ? toAccountPageLink() : '/sign-in'"
+          :to="authStore.isLoggedIn ? toAccountPageLink() : '/sign-in'"
           class="w-full p-4 active:ml-1 transition-all flex items-center justify-between hover:ml-1 hover:text-[#d4a26f]
           animate-fade-down animate-duration-[300ms] animate-ease-out animate-delay-300"
           @click="switchSidebar">
@@ -100,5 +104,4 @@ const switchSidebar = () => {
 </template>
 
 <style scoped>
-@import "bootstrap-icons/font/bootstrap-icons.css";
 </style>
