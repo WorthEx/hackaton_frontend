@@ -4,7 +4,7 @@ import accountAPI from "@/apis/AccountAPI.js";
 import string_constants from "@/string_constants.js";
 import router from "@/router/index.js";
 import {jwtDecode} from "jwt-decode";
-import {tokenSaved} from "@/utils.js";
+import {toAccountPageLink, tokenSaved} from "@/utils.js";
 import {useAuthStore} from "@/stores/store.js";
 
 const loginData = ref(
@@ -20,9 +20,7 @@ const loadingState = ref(false)
 const authStore = useAuthStore()
 
 onMounted(async () => {
-  if (tokenSaved()) {
-    await router.push(`/user/${localStorage.getItem(string_constants.username)}`);
-  }
+  if (tokenSaved()) await router.push(toAccountPageLink());
 })
 
 const signIn = async () => {
@@ -41,6 +39,7 @@ const signIn = async () => {
         localStorage.setItem(string_constants.firstname, responseData.firstname)
         localStorage.setItem(string_constants.lastname, responseData.lastname)
         localStorage.setItem(string_constants.email, responseData.email)
+        localStorage.setItem(string_constants.city, responseData.city)
         await router.push(`/user/${loginData.value.username}`)
       }
     } catch (_) {

@@ -3,9 +3,6 @@ import string_constants from "@/string_constants.js";
 import {jwtDecode} from "jwt-decode";
 import {useAuthStore} from "@/stores/store.js";
 
-export const toUserPage = async function (id) {
-	await router.push(`/user/${id}`)
-}
 
 export const tokenSaved = () => {
 	return (

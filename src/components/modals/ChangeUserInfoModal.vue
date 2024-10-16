@@ -1,17 +1,19 @@
 <script setup>
 import Modal from "@/components/modals/Modal.vue";
 import {onMounted, ref} from "vue";
+import accountAPI from "@/apis/AccountAPI.js";
+import {toast} from "vue3-toastify";
 
 const props = defineProps({
-  firstname: String,
-  lastname: String,
+  firstName: String,
+  lastName: String,
   city: String
 })
 const emit = defineEmits(['updateDataEvent'])
 
 const newUserInfo = ref({
-  firstname: "",
-  lastname: "",
+  firstName: "",
+  lastName: "",
   city: ""
 })
 const loadingState = ref(false)
@@ -19,27 +21,20 @@ const errorOccurred = ref(false)
 const fieldsEmpty = ref(false)
 
 const updateUserInfo = async () => {
-  if (newUserInfo.value.firstname !== "" && newUserInfo.value.lastname !== "") {
+  if (newUserInfo.value.firstName !== "" && newUserInfo.value.lastName !== "") {
     fieldsEmpty.value = false
     loadingState.value = true
     try {
-      // todo выполнить запрос
-      // const response = await accountAPI.login(loginData.value)
-      // console.log(response)
-      // if (response.status === 200) {
-      //   errorOccurred.value = false
-      //   authStore.isLoggedIn = true
-      //   const responseData = jwtDecode(response.data.jwt)
-      //   console.log(responseData)
-      //   localStorage.setItem(string_constants.accessToken, response.data.jwt)
-      //   localStorage.setItem(string_constants.username, responseData.sub)
-      //   localStorage.setItem(string_constants.firstname, responseData.firstname)
-      //   localStorage.setItem(string_constants.lastname, responseData.lastname)
-      //   localStorage.setItem(string_constants.email, responseData.email)
-      // emit('updateDataEvent', newUserInfo.value)
-      // }
-
+      const response = await accountAPI.updateUserInfo(newUserInfo.value)
+      if (response.status === 200) {
+        errorOccurred.value = false
+        const responseData = response.data
+        console.log(responseData)
+        toast.success("Данные профиля обновлены!")
+        emit('updateDataEvent', newUserInfo.value)
+      }
     } catch (_) {
+      toast.error("Произошла ошибка, повторите попытку позже.")
       errorOccurred.value = true
     } finally {
       loadingState.value = false
@@ -60,14 +55,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <Modal title="Редактировать&nbsp;данные">
+  <Modal title="Изменить&nbsp;профиль">
     <form class="flex flex-col gap-4">
       <div
           class="flex flex-col gap-1 *:w-full border-b-[#C1C1C1] has-[:focus]:border-b-[#d4a26f] border-b-2 transition-colors">
         <label class="sm:text-[18px] text-[14px]" for="firstname">Имя<span
             class="text-[#FF5F5F]"> *</span></label>
         <input
-            v-model="newUserInfo.firstname"
+            v-model="newUserInfo.firstName"
             class="font-light w-full bg-transparent placeholder-opacity-70 placeholder-[#C1C1C1]
               sm:text-[20px] text-[18px]"
             name="firstname"
@@ -79,7 +74,7 @@ onMounted(() => {
         <label class="sm:text-[18px] text-[14px]" for="lastname">Фамилия<span
             class="text-[#FF5F5F]"> *</span></label>
         <input
-            v-model="newUserInfo.lastname"
+            v-model="newUserInfo.lastName"
             class="font-light w-full bg-transparent placeholder-opacity-70 placeholder-[#C1C1C1]
               sm:text-[20px] text-[18px]"
             name="lastname"

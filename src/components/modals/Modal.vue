@@ -10,11 +10,11 @@ const props = defineProps({
 
 <template>
   <div class="fixed inset-0 z-[1000] size-full bg-black/50 backdrop-blur-md" @click="$emit('closeModal')">
-    <div class="absolute -translate-x-1/2 left-1/2 -translate-y-1/2 top-1/2 backdrop-blur-xl sm:rounded-2xl rounded-xl
-                flex flex-col *:w-full select-none ring-[2px] ring-white/30 w-[90%] md:w-fit md:min-w-[600px]"
+    <div class="absolute -translate-x-1/2 left-1/2 -translate-y-1/2 top-1/2 bg-black/50 sm:rounded-2xl rounded-xl
+                flex flex-col *:w-full select-none ring-1 ring-white/20 w-[90%] md:w-fit md:min-w-[600px]"
          @click.stop.prevent>
       <div class="flex justify-between sm:gap-4 gap-2 items-center sm:px-6 px-3 sm:py-4 py-3">
-        <span class="sm:text-[24px] text-[16px] leading-none text-white">{{ props.title }}</span>
+        <span class="sm:text-[28px] text-[20px] font-bold leading-none text-white">{{ props.title }}</span>
         <i class="bi bi-x  text-white sm:text-[36px] text-[28px] leading-none cursor-pointer hover:rotate-[180deg] transition-all"
            @click="$emit('closeModal')"></i>
       </div>

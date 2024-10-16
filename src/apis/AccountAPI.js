@@ -7,5 +7,9 @@ export default {
 
 	verifyRegistration(code) {
 		return API().get(`/auth/verify?code=${code}`)
+	},
+
+	updateUserInfo(newUserInfo) {
+		return API().put('/user/update-info', newUserInfo)
 	}
 }

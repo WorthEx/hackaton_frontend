@@ -5,4 +5,5 @@ export default {
 	email: "EMAIL",
 	lastname: "LASTNAME",
 	firstname: "FIRSTNAME",
+	city: "CITY"
 }
