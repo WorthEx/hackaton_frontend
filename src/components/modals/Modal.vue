@@ -6,6 +6,7 @@ const props = defineProps({
   }
 })
 
+const emit = defineEmits(['closeModal'])
 </script>
 
 <template>
@@ -16,7 +17,7 @@ const props = defineProps({
       <div class="flex justify-between sm:gap-4 gap-2 items-center sm:px-6 px-3 sm:py-4 py-3">
         <span class="sm:text-[28px] text-[20px] font-bold leading-none text-white">{{ props.title }}</span>
         <i class="bi bi-x  text-white sm:text-[36px] text-[28px] leading-none cursor-pointer hover:rotate-[180deg] transition-all"
-           @click="$emit('closeModal')"></i>
+           @click="emit('closeModal')"></i>
       </div>
       <div class="h-full sm:p-6 p-3 sm:pt-0 pt-0 text-white">
         <slot></slot>

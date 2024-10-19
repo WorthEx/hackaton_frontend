@@ -14,13 +14,13 @@ const signUp = () => {
         class="bg-black/25 backdrop-blur-lg rounded-2xl ring-white/10 ring-1 overflow-hidden sm:shadow-[0px_0px_50px_15px_rgba(212,162,111,.35)]
         flex flex-row
         2xl:w-[calc(70vw)] sm:w-[calc(65vw)] w-[calc(100vw-1em)]
-        lg:max-w-[1200px] max-h-[850px]">
+        lg:max-w-[1100px]">
       <div class="lg:block hidden xl:basis-[50%] basis-0">
         <img alt="" class="object-cover size-full select-none pointer-events-none"
              src="@/assets/images/stairs_comp.jpg">
       </div>
       <div
-          class="min-h-full sm:px-6 px-4 py-6 xl:basis-[50%] basis-full select-none flex flex-col justify-center gap-6 text-white">
+          class="min-h-full sm:px-6 p-4 xl:basis-[50%] basis-full select-none flex flex-col justify-center gap-6 text-white">
         <span class="w-full block text-center font-medium sm:text-[32px] text-[26px] leading-tight">Регистрация</span>
         <form aria-autocomplete="none" autocomplete="off"
               class="flex flex-col gap-6"

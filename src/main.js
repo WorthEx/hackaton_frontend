@@ -17,6 +17,7 @@ const app = createApp(App)
 	.use(Vue3Toastify, {
 		position: "top-right",
 		type: "default",
+		theme: "dark",
 		autoClose: 2500,
 		transition: toast.TRANSITIONS.BOUNCE
 	})

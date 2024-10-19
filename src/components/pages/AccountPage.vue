@@ -70,6 +70,7 @@ const closeChangeUserInfoModal = () => {
   revealFullName()
   modal.hideModal()
   changeUserInfoButton.value.blur()
+  console.log("CLOSED")
 }
 
 const hideFullName = () => {

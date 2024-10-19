@@ -68,7 +68,7 @@ document.onkeydown = async (e) => {
         class="bg-black/25 backdrop-blur-lg rounded-2xl ring-white/10 ring-1 overflow-hidden sm:shadow-[0px_0px_50px_15px_rgba(212,162,111,.35)]
         flex flex-row
         2xl:w-[calc(70vw)] sm:w-[calc(65vw)] w-[calc(100vw-1em)]
-        lg:max-w-[1200px] max-h-[850px]">
+        lg:max-w-[1100px] max-h-[750px]">
       <div class="lg:block hidden xl:basis-[50%] basis-0">
         <img alt="" class="object-cover size-full select-none pointer-events-none"
              src="@/assets/images/stairs_comp.jpg">
