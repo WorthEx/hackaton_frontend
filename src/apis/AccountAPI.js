@@ -11,5 +11,13 @@ export default {
 
 	updateUserInfo(newUserInfo) {
 		return API().put('/user/update-info', newUserInfo)
+	},
+
+	getUserInfo() {
+		return API().get('/user/user-info')
+	},
+
+	updateBio(newBio) {
+		return API().post('/user/update-bio', newBio)
 	}
 }

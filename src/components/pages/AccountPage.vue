@@ -1,34 +1,42 @@
 <script setup>
-import {markRaw, onMounted, ref} from "vue";
+import {markRaw, onBeforeMount, onMounted, ref} from "vue";
 import string_constants from "@/string_constants.js";
 import {jwtDecode} from "jwt-decode";
 import {useRoute} from "vue-router";
 import router from "@/router/index.js";
 import {tokenSaved} from "@/utils.js";
 import ChangeUserInfoModal from "@/components/modals/ChangeUserInfoModal.vue";
+import Loading from "@/components/loading/Loading.vue";
 import {useModal} from "@/components/modals/useModal.js";
 import {useAuthStore} from "@/stores/store.js";
 import {toast} from "vue3-toastify";
+import {useLoading} from "@/components/loading/useLoading.js";
+import accountAPI from "@/apis/AccountAPI.js";
+import ChangeBioModal from "@/components/modals/ChangeBioModal.vue";
 
-const route = useRoute()
 const username = ref("")
 const firstname = ref("")
 const lastname = ref("")
 const city = ref("")
 const email = ref("")
+const bio = ref("")
 const showPen = ref(false)
-
+const loadingError = ref(false)
+const bioCollapsed = ref(true)
 
 const modal = useModal()
+const loading = useLoading()
+const route = useRoute()
 const authStore = useAuthStore()
-// const gradientString = easyMeshGradient({
-//   easingStops: 2,
-//   saturationRange: [.3, .4],
-//   seed: 29
-// });
 
 const fullNameEl = ref()
+const cityEl = ref()
 const changeUserInfoButton = ref()
+const bioEl = ref()
+
+onBeforeMount(() => {
+  loading.showLoading()
+})
 
 onMounted(async () => {
   if (tokenSaved()) {
@@ -36,6 +44,7 @@ onMounted(async () => {
       const urlUsername = route.params.userId;
       const jwtUsername = jwtDecode(localStorage.getItem(string_constants.accessToken)).sub;
       if (urlUsername !== jwtUsername) {
+        localStorage.clear()
         await router.push("/sign-in")
       }
     } catch (_) {
@@ -43,17 +52,33 @@ onMounted(async () => {
       await router.push("/sign-in")
     }
 
-    // todo заменить на получение данных по запросу
     const userFromToken = jwtDecode(localStorage.getItem(string_constants.accessToken));
     username.value = userFromToken.sub;
-    firstname.value = userFromToken.firstname.charAt(0).toUpperCase() + userFromToken.firstname.slice(1);
-    lastname.value = userFromToken.lastname.charAt(0).toUpperCase() + userFromToken.lastname.slice(1);
-    email.value = userFromToken.email;
-    city.value = userFromToken.city;
+    await getUserInfo()
+
     updateLSUserData()
 
   } else await router.push("/sign-in")
 })
+
+const getUserInfo = async () => {
+  try {
+    const response = await accountAPI.getUserInfo()
+    if (response.status === 200) {
+      const responseData = response.data
+      firstname.value = responseData.firstName.charAt(0).toUpperCase() + responseData.firstName.slice(1);
+      lastname.value = responseData.lastName.charAt(0).toUpperCase() + responseData.lastName.slice(1);
+      email.value = responseData.email
+      city.value = responseData.city
+      bio.value = responseData.bio
+
+      loading.hideLoading()
+      loadingError.value = false
+    }
+  } catch (_) {
+    loadingError.value = true
+  }
+}
 
 const copyUsername = () => {
   navigator.clipboard.writeText(username.value)
@@ -61,28 +86,48 @@ const copyUsername = () => {
 }
 
 const openChangeUserInfoModal = () => {
-  hideFullName()
+  hideChangeable()
   modal.component.value = markRaw(ChangeUserInfoModal)
   modal.showModal()
 }
 
 const closeChangeUserInfoModal = () => {
-  revealFullName()
+  revealChangeable()
   modal.hideModal()
   changeUserInfoButton.value.blur()
-  console.log("CLOSED")
 }
 
-const hideFullName = () => {
+const openChangeBioModal = () => {
+  hideBio()
+  modal.component.value = markRaw(ChangeBioModal)
+  modal.showModal()
+}
+
+const closeChangeBioModal = () => {
+  revealBio()
+  modal.hideModal()
+}
+
+const hideChangeable = () => {
   showPen.value = false
   fullNameEl.value.classList.add("md:translate-x-[calc(-100%-100px)]", "translate-x-[calc(-100%-25px)]")
+  cityEl.value.classList.add("md:translate-x-[calc(-100%-100px)]", "translate-x-[calc(-100%-25px)]")
 }
 
-const revealFullName = () => {
+const revealChangeable = () => {
   fullNameEl.value.classList.remove("md:translate-x-[calc(-100%-100px)]", "translate-x-[calc(-100%-25px)]")
+  cityEl.value.classList.remove("md:translate-x-[calc(-100%-100px)]", "translate-x-[calc(-100%-25px)]")
 }
 
-const updateDataEvent = (newData) => {
+const hideBio = () => {
+  bioEl.value.classList.add("translate-y-[100%]", "opacity-0")
+}
+
+const revealBio = () => {
+  bioEl.value.classList.remove("translate-y-[100%]", "opacity-0")
+}
+
+const onUpdateDataEvent = (newData) => {
   firstname.value = newData.firstName
   lastname.value = newData.lastName
   city.value = newData.city
@@ -90,13 +135,17 @@ const updateDataEvent = (newData) => {
   closeChangeUserInfoModal()
 }
 
-// Применять только после назначения реактивных данных
+const onUpdateBioEvent = (newBio) => {
+  bio.value = newBio
+  closeChangeBioModal()
+}
+
+// Применять только после назначения реактивных данных!
 const updateLSUserData = () => {
   localStorage.setItem(string_constants.firstname, firstname.value);
   localStorage.setItem(string_constants.lastname, lastname.value);
   localStorage.setItem(string_constants.city, city.value);
 }
-
 
 </script>
 
@@ -105,9 +154,20 @@ const updateLSUserData = () => {
     <Transition>
       <component :is="modal.component.value"
                  v-if="modal.show.value"
-                 v-bind="modal.component.value === ChangeUserInfoModal ? {firstName: firstname, lastName: lastname, city: city} : null"
-                 @closeModal="closeChangeUserInfoModal"
-                 @updateDataEvent="(newData) => updateDataEvent(newData)"/>
+                 v-bind="modal.component.value === ChangeUserInfoModal ? {firstName: firstname, lastName: lastname, city: city} :
+                         modal.component.value === ChangeBioModal ? {bio: bio} :
+                         null"
+                 @closeModal="modal.component.value === ChangeUserInfoModal ? closeChangeUserInfoModal() :
+                              modal.component.value === ChangeBioModal && closeChangeBioModal()"
+                 @updateBioEvent="(newBio) => onUpdateBioEvent(newBio)"
+                 @updateDataEvent="(newData) => onUpdateDataEvent(newData)"/>
+    </Transition>
+  </Teleport>
+  <Teleport to="#loading">
+    <Transition>
+      <Loading v-if="loading.show.value" :error="loadingError" error-msg="Ошибка при получении данных">
+        Загрузка ваших данных
+      </Loading>
     </Transition>
   </Teleport>
   <div
@@ -120,7 +180,7 @@ const updateLSUserData = () => {
     <div
         class="bg-black/45 backdrop-blur-lg md:h-[calc(100vh-3em)] h-[calc(100vh-2em)] overflow-hidden
                  flex flex-col mx-auto w-full max-w-lg lg:max-w-xl xl:max-w-2xl 2xl:max-w-4xl">
-      <div class="w-full md:h-[30%] h-[20%] relative">
+      <section class="w-full md:h-[35%] h-[25%] relative">
         <!--        <img alt="bruh" class="size-full object-cover object-center pointer-events-none select-none"-->
         <!--             src="@/assets/images/white_bookshelf.jpg">-->
         <div
@@ -171,10 +231,10 @@ const updateLSUserData = () => {
             text-[#eeeeee] md:text-[22px] text-[16px] font-light cursor-pointer active:text-black transition-colors w-fit"
             @click="copyUsername()">@{{ username }}
         </div>
-      </div>
-      <div class="flex flex-row justify-between">
+      </section>
+      <section class="flex flex-row justify-between items-center">
         <div
-            class="w-full md:mt-[75px] mt-[45px] md:py-4 py-2 md:px-[100px] px-[25px] flex flex-col leading-tight select-none">
+            class="w-full md:mt-[75px] mt-[45px] md:py-4 py-2 md:pl-[100px] pl-[25px] pr-[12px] flex flex-col leading-none gap-2 select-none">
           <div class="flex flex-row items-center gap-2">
             <span ref="fullNameEl"
                   class="text-[#eeeeee] font-bold md:text-[35px] text-[20px] cursor-pointer transition-all"
@@ -185,20 +245,46 @@ const updateLSUserData = () => {
               }}</span>
             <i v-if="showPen" class="bi bi-pencil-fill text-[#d4a26f] md:text-[20px] text-[16px]"></i>
           </div>
-          <span
-              class="text-[#9C9C9C] md:text-[20px] text-[16px] cursor-pointer hover:text-[#d4a26f]/80 transition-colors w-fit"
-              @click="copyUsername()">@{{ username }}</span>
+          <div ref="cityEl" class="transition-all delay-100 flex flex-row gap-1 items-center w-fit *:leading-none">
+            <i class="bi bi-geo-alt-fill text-white md:text-[18px] text-[16px] text-center"></i>
+            <span
+                class="text-[#9C9C9C] md:text-[20px] text-[16px] w-fit select-all">
+                {{ city }}
+            </span>
+          </div>
+          <div class="flex flex-row gap-1 items-center w-fit *:leading-none">
+            <i class="bi bi-envelope-fill text-white md:text-[18px] text-[16px] text-center"></i>
+            <span
+                class="text-[#9C9C9C] md:text-[20px] text-[16px] w-fit select-all">
+                {{ email }}
+            </span>
+          </div>
         </div>
-        <div class="flex flex-row md:mt-[75px] mt-[45px] md:pr-8 pr-2 md:py-4 py-2">
+        <div class="flex flex-row md:mt-[75px] mt-[45px] md:pr-8 pr-4">
           <div ref="changeUserInfoButton"
-               class="size-fit md:rounded-xl rounded-md transition-all flex justify-center cursor-pointer
-                          bg-transparent ring-[2px] ring-[#d4a26f] text-[#d4a26f]
-                          hover:bg-[#d4a26f] hover:ring-transparent hover:text-white
-                          active:scale-[98%] md:py-2 py-1  md:px-4 px-2 sm:text-[20px] text-[16px] select-none"
+               class="size-fit rounded-lg transition-all flex justify-center cursor-pointer
+                          bg-transparent ring-[1.5px] ring-white/70 text-white/70
+                          hover:ring-white hover:text-white
+                          active:scale-[98%] md:py-2 py-1 md:px-4 px-2 sm:text-[20px] text-[16px] select-none"
                @click="openChangeUserInfoModal()">Изменить
           </div>
         </div>
-      </div>
+      </section>
+      <section ref="bioEl"
+               class="w-full *:w-full pb-2 md:pl-[100px] pl-[25px] md:pr-8 pr-4 transition-all duration-200">
+        <p :class="[bioCollapsed ? ' line-clamp-2' : '', bio.length > 0 ? 'text-white/90' : 'text-[#9C9C9C]']"
+           class=" font-light md:text-[20px] text-[16px] select-none text-pretty text-justify
+           hover:bg-white/10 transition-all rounded-md cursor-pointer"
+           @click="openChangeBioModal()">
+          {{ bio.length > 0 ? bio : 'Расскажите что-нибудь о себе...' }}
+        </p>
+        <div :class="bio.length < 30 && 'hidden'" class="w-fit flex justify-end">
+          <span class="text-white/50 font md:text-[20px] text-[16px] select-none cursor-pointer"
+                @click="_ => bioCollapsed = !bioCollapsed">{{
+              bioCollapsed ? 'Развернуть' : 'Свернуть'
+            }}</span>
+        </div>
+      </section>
     </div>
   </div>
 </template>
