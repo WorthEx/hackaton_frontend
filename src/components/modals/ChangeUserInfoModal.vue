@@ -79,7 +79,7 @@ onMounted(() => {
         <input
             v-model="newUserInfo.firstName"
             class="font-light w-full bg-transparent placeholder-opacity-70 placeholder-[#C1C1C1]
-              sm:text-[20px] text-[18px]"
+              sm:text-[18px] text-[16px]"
             name="firstname"
             placeholder="Мариса"
             type="text">
@@ -91,7 +91,7 @@ onMounted(() => {
         <input
             v-model="newUserInfo.lastName"
             class="font-light w-full bg-transparent placeholder-opacity-70 placeholder-[#C1C1C1]
-              sm:text-[20px] text-[18px]"
+              sm:text-[18px] text-[16px]"
             name="lastname"
             placeholder="Кирисамэ"
             type="text">
@@ -102,7 +102,7 @@ onMounted(() => {
         <input
             v-model="newUserInfo.city"
             class="font-light w-full bg-transparent placeholder-opacity-70 placeholder-[#C1C1C1]
-              sm:text-[20px] text-[18px]"
+              sm:text-[18px] text-[16px]"
             name="city"
             placeholder="Токио, Япония"
             type="text">

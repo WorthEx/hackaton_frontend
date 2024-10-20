@@ -48,11 +48,12 @@ const router = createRouter({
 				behavior: "smooth"
 			}
 		}
-		return {
-			x: 0, y: 0,
-			top: 0,
-			behavior: "smooth",
-		}
+		return new Promise((resolve) => {
+			resolve({
+				left: 0, top: 0,
+				behavior: "smooth",
+			})
+		})
 	},
 })
 

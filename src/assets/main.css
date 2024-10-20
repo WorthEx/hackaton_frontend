@@ -16,3 +16,7 @@ body {
 .Toastify__toast {
     font-size: 16px;
 }
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}

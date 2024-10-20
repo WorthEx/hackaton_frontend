@@ -20,6 +20,9 @@ const lastname = ref("")
 const city = ref("")
 const email = ref("")
 const bio = ref("")
+const level = ref(0)
+const progress = ref(0)
+
 const showPen = ref(false)
 const loadingError = ref(false)
 const bioCollapsed = ref(true)
@@ -66,11 +69,14 @@ const getUserInfo = async () => {
     const response = await accountAPI.getUserInfo()
     if (response.status === 200) {
       const responseData = response.data
+      console.log(responseData)
       firstname.value = responseData.firstName.charAt(0).toUpperCase() + responseData.firstName.slice(1);
       lastname.value = responseData.lastName.charAt(0).toUpperCase() + responseData.lastName.slice(1);
       email.value = responseData.email
       city.value = responseData.city
       bio.value = responseData.bio
+      level.value = responseData.level
+      progress.value = responseData.progress
 
       loading.hideLoading()
       loadingError.value = false
@@ -220,14 +226,18 @@ const updateLSUserData = () => {
            linear-gradient(hsla(328.522539392088, 48.893128219778404%, 55.466977181983104%, 1),
            hsla(328.522539392088, 48.893128219778404%, 55.466977181983104%, 1))"></div>
         <div
-            class="rounded-full absolute md:bottom-[-75px] bottom-[-45px] md:left-[100px] left-[25px] bg-[#d4a26f] md:min-h-[150px] md:min-w-[150px] md:max-h-[150px] md:max-w-[150px]
-                    min-h-[90px] min-w-[90px] max-h-[90px] max-w-[90px] overflow-hidden md:ring-[4px] ring-[2px] ring-[#101415] flex justify-center items-center select-none">
-            <span class="font-normal text-[#101415] uppercase md:text-[55px] text-[30px]">{{
-                firstname[0] + lastname[0]
-              }}</span>
+            class="md:bottom-[-75px] bottom-[-45px]
+            md:left-[100px] left-[25px]
+            rounded-full absolute bg-[#d4a26f]
+            md:min-h-[150px] md:min-w-[150px] md:max-h-[150px] md:max-w-[150px]
+            min-h-[90px] min-w-[90px] max-h-[90px] max-w-[90px]
+            md:ring-[4px] ring-[2px] ring-[#101415] flex justify-center items-center select-none">
+            <span class="font-normal text-[#101415] uppercase md:text-[55px] text-[30px]">
+              {{ firstname && lastname ? firstname[0] + lastname[0] : "SS" }}
+            </span>
         </div>
         <div
-            class="absolute sm:bottom-2 bottom-1 sm:right-2 right-1 select-none
+            class="absolute bottom-2 right-2 select-none
             text-[#eeeeee] md:text-[22px] text-[16px] font-light cursor-pointer active:text-black transition-colors w-fit"
             @click="copyUsername()">@{{ username }}
         </div>
@@ -241,15 +251,16 @@ const updateLSUserData = () => {
                   @click="openChangeUserInfoModal()"
                   @mouseenter="() => {showPen = true}"
                   @mouseleave="() => {showPen = false}">{{
-                firstname + " " + lastname
+                `${firstname} ${lastname} [${level}]`
               }}</span>
-            <i v-if="showPen" class="bi bi-pencil-fill text-[#d4a26f] md:text-[20px] text-[16px]"></i>
+            <i :class="showPen ? 'opacity-100' : 'opacity-0'"
+               class="transition-opacity bi bi-pencil-fill text-[#d4a26f] md:text-[20px] text-[16px]"></i>
           </div>
           <div ref="cityEl" class="transition-all delay-100 flex flex-row gap-1 items-center w-fit *:leading-none">
             <i class="bi bi-geo-alt-fill text-white md:text-[18px] text-[16px] text-center"></i>
             <span
                 class="text-[#9C9C9C] md:text-[20px] text-[16px] w-fit select-all">
-                {{ city }}
+                {{ city ? city : "Город не указан" }}
             </span>
           </div>
           <div class="flex flex-row gap-1 items-center w-fit *:leading-none">
@@ -260,13 +271,21 @@ const updateLSUserData = () => {
             </span>
           </div>
         </div>
-        <div class="flex flex-row md:mt-[75px] mt-[45px] md:pr-8 pr-4">
+        <div class="md:mt-[75px] mt-[45px] md:pr-8 pr-4">
           <div ref="changeUserInfoButton"
-               class="size-fit rounded-lg transition-all flex justify-center cursor-pointer
-                          bg-transparent ring-[1.5px] ring-white/70 text-white/70
+               class="md:flex hidden size-fit rounded-lg transition-all justify-center cursor-pointer
+                          bg-transparent ring-[1.5px] ring-white/60 text-white/60
                           hover:ring-white hover:text-white
-                          active:scale-[98%] md:py-2 py-1 md:px-4 px-2 sm:text-[20px] text-[16px] select-none"
+                          active:scale-[98%] md:py-2 py-1 md:px-4 px-2 md:text-[20px] text-[16px] select-none"
                @click="openChangeUserInfoModal()">Изменить
+          </div>
+          <div ref="changeUserInfoButton"
+               class="md:hidden size-fit aspect-square rounded-lg transition-all flex justify-center items-center cursor-pointer
+                          bg-transparent ring-[1.5px] ring-white/60 text-white/60
+                          hover:ring-white hover:text-white
+                          active:scale-[98%] md:py-2 py-1 md:px-4 px-2 md:text-[20px] text-[16px] select-none"
+               @click="openChangeUserInfoModal()">
+            <i class="bi bi-pencil-fill leading-none"></i>
           </div>
         </div>
       </section>
@@ -279,8 +298,9 @@ const updateLSUserData = () => {
           {{ bio.length > 0 ? bio : 'Расскажите что-нибудь о себе...' }}
         </p>
         <div :class="bio.length < 30 && 'hidden'" class="w-fit flex justify-end">
-          <span class="text-white/50 font md:text-[20px] text-[16px] select-none cursor-pointer"
-                @click="_ => bioCollapsed = !bioCollapsed">{{
+          <span
+              class="text-white/60 hover:text-white transition-colors font md:text-[20px] text-[16px] select-none cursor-pointer"
+              @click="_ => bioCollapsed = !bioCollapsed">{{
               bioCollapsed ? 'Развернуть' : 'Свернуть'
             }}</span>
         </div>

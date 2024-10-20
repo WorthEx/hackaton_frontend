@@ -8,8 +8,8 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="fixed inset-0 z-[1000] size-full bg-black/50 backdrop-blur-md" @click="$emit('closeModal')">
-    <div class="absolute -translate-x-1/2 left-1/2 -translate-y-1/2 top-1/2 bg-black/50 sm:rounded-2xl rounded-xl
+  <div class="fixed inset-0 z-[1000] size-full bg-black/50 backdrop-blur-xl" @click="$emit('closeModal')">
+    <div class="absolute -translate-x-1/2 left-1/2 -translate-y-1/2 top-1/2 bg-black/30 sm:rounded-2xl rounded-xl
                 flex flex-col *:w-full select-none ring-[1.5px] ring-white/20 w-[90%] md:w-fit md:min-w-[600px]"
          @click.stop.prevent>
       <div class="flex justify-between sm:gap-4 gap-2 items-center sm:px-6 px-3 sm:py-4 py-3">

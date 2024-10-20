@@ -54,13 +54,13 @@ onMounted(() => {
       <div
           class="flex flex-col gap-1 *:w-full border-b-[#C1C1C1] has-[:focus]:border-b-[#d4a26f] border-b-2 transition-colors">
         <label class="sm:text-[18px] text-[14px]" for="bio>">Био</label>
-        <input
+        <textarea
             v-model="newBio"
-            class="font-light w-full bg-transparent placeholder-opacity-70 placeholder-[#C1C1C1]
-              sm:text-[20px] text-[18px]"
+            class="resize-none font-light w-full bg-transparent placeholder-opacity-70 placeholder-[#C1C1C1] sm:text-[18px] text-[16px] no-scrollbar"
             name="bio>"
             placeholder="В поисках адекватных тиммейтов..."
-            type="text">
+            rows="3"
+            type="text"/>
       </div>
       <span
           :class="errorOccurred ? 'block' :'hidden'"
