@@ -75,7 +75,7 @@ onMounted(() => {
         <label class="sm:text-[18px] text-[14px]" for="firstname">Имя<span
             class="text-[#FF5F5F]"> *</span></label>
         <input
-            v-model="newUserInfo.firstName"
+            v-model.trim="newUserInfo.firstName"
             class="font-light w-full bg-transparent placeholder-opacity-70 placeholder-[#C1C1C1]
               sm:text-[18px] text-[16px]"
             name="firstname"
@@ -87,7 +87,7 @@ onMounted(() => {
         <label class="sm:text-[18px] text-[14px]" for="lastname">Фамилия<span
             class="text-[#FF5F5F]"> *</span></label>
         <input
-            v-model="newUserInfo.lastName"
+            v-model.trim="newUserInfo.lastName"
             class="font-light w-full bg-transparent placeholder-opacity-70 placeholder-[#C1C1C1]
               sm:text-[18px] text-[16px]"
             name="lastname"
@@ -98,7 +98,7 @@ onMounted(() => {
           class="flex flex-col gap-1 *:w-full border-b-[#C1C1C1] has-[:focus]:border-b-[#d4a26f] border-b-2 transition-colors">
         <label class="sm:text-[18px] text-[14px]" for="city">Город</label>
         <input
-            v-model="newUserInfo.city"
+            v-model.trim="newUserInfo.city"
             class="font-light w-full bg-transparent placeholder-opacity-70 placeholder-[#C1C1C1]
               sm:text-[18px] text-[16px]"
             name="city"

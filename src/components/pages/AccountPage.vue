@@ -290,13 +290,13 @@ const updateLSUserData = () => {
       </section>
       <section ref="bioEl"
                class="w-full *:w-full pb-2 md:pl-[100px] pl-[25px] md:pr-8 pr-4 transition-all duration-200">
-        <p :class="[bioCollapsed ? ' line-clamp-2' : '', bio.length > 0 ? 'text-white/90' : 'text-[#9C9C9C]']"
+        <p :class="[bioCollapsed ? ' line-clamp-2' : '', bio ? 'text-white/90' : 'text-[#9C9C9C]']"
            class=" font-light md:text-[20px] text-[16px] select-none text-pretty text-justify
-           hover:bg-white/10 transition-all rounded-md cursor-pointer"
+           hover:bg-white/10 transition-all rounded-md cursor-pointer break-all"
            @click="openChangeBioModal()">
-          {{ bio.length > 0 ? bio : 'Расскажите что-нибудь о себе...' }}
+          {{ bio ? bio : 'Расскажите что-нибудь о себе...' }}
         </p>
-        <div :class="bio.length < 30 && 'hidden'" class="w-fit flex justify-end">
+        <div class="w-fit flex justify-end">
           <span
               class="text-white/60 hover:text-white transition-colors font md:text-[20px] text-[16px] select-none cursor-pointer"
               @click="_ => bioCollapsed = !bioCollapsed">{{

@@ -107,7 +107,7 @@ document.onkeydown = async (e) => {
               class="flex flex-col gap-1">
             <label class="sm:text-[18px] text-[14px]" for="email">Электронная почта</label>
             <input
-                v-model="email"
+                v-model.trim="email"
                 aria-autocomplete="none"
                 class="font-light w-full bg-transparent placeholder-opacity-70 placeholder-[#C1C1C1]
                 sm:text-[20px] text-[18px]
@@ -126,7 +126,7 @@ border-b-[#C1C1C1] focus:border-b-[#d4a26f] border-b-2 transition-colors"
               class="flex flex-col gap-1">
             <label class="sm:text-[18px] text-[14px]" for="username">Имя пользователя</label>
             <input
-                v-model="username"
+                v-model.trim="username"
                 aria-autocomplete="none"
                 class="font-light w-full bg-transparent placeholder-opacity-70 placeholder-[#C1C1C1]
                 sm:text-[20px] text-[18px]
@@ -146,7 +146,7 @@ border-b-[#C1C1C1] focus:border-b-[#d4a26f] border-b-2 transition-colors"
               class="flex flex-col gap-1">
             <label class="sm:text-[18px] text-[14px]" for="firstname">Имя</label>
             <input
-                v-model="name"
+                v-model.trim="name"
                 aria-autocomplete="none"
                 class="font-light w-full bg-transparent placeholder-opacity-70 placeholder-[#C1C1C1]
                 sm:text-[20px] text-[18px]
@@ -166,7 +166,7 @@ border-b-[#C1C1C1] focus:border-b-[#d4a26f] border-b-2 transition-colors"
               class="flex flex-col gap-1">
             <label class="sm:text-[18px] text-[14px]" for="lastname">Фамилия</label>
             <input
-                v-model="surname"
+                v-model.trim="surname"
                 aria-autocomplete="none"
                 class="font-light w-full bg-transparent placeholder-opacity-70 placeholder-[#C1C1C1]
                 sm:text-[20px] text-[18px]
@@ -188,7 +188,7 @@ border-b-[#C1C1C1] focus:border-b-[#d4a26f] border-b-2 transition-colors"
             <div class="flex flex-row">
               <input
                   v-if="passwordHidden"
-                  v-model="password"
+                  v-model.trim="password"
                   aria-autocomplete="none"
                   autocomplete="false"
                   class="font-light w-full bg-transparent placeholder-opacity-70 placeholder-[#C1C1C1]
@@ -230,7 +230,7 @@ border-b-[#C1C1C1] focus:border-b-[#d4a26f] border-b-2 transition-colors"
             <div class="flex flex-row">
               <input
                   v-if="repeatPasswordHidden"
-                  v-model="repeatPassword"
+                  v-model.trim="repeatPassword"
                   aria-autocomplete="none"
                   autocomplete="false"
                   class="font-light w-full bg-transparent placeholder-opacity-70 placeholder-[#C1C1C1]

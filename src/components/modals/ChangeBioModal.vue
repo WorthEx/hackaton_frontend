@@ -1,6 +1,6 @@
 <script setup>
 import Modal from "@/components/modals/Modal.vue";
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watch} from "vue";
 import {toast} from "vue3-toastify";
 import accountAPI from "@/apis/AccountAPI.js";
 
@@ -12,6 +12,8 @@ const emit = defineEmits(['updateBioEvent'])
 const newBio = ref("")
 const loadingState = ref(false)
 const errorOccurred = ref(false)
+const numberOfSymbols = ref(0)
+const wordLimitExceeded = ref(false)
 
 
 const updateBio = async () => {
@@ -20,6 +22,7 @@ const updateBio = async () => {
     emit('closeModal')
     return
   }
+  if (wordLimitExceeded.value) return
   loadingState.value = true
   try {
     const response = await accountAPI.updateBio(newBio.value)
@@ -36,12 +39,14 @@ const updateBio = async () => {
   }
 }
 
-document.onkeydown = async (e) => {
-  if (e.key === 'Enter') await updateBio()
-}
-
 onMounted(() => {
-  newBio.value = props.bio.trim()
+  newBio.value = props.bio ? props.bio.trim() : ""
+  numberOfSymbols.value = props.bio ? props.bio.trim().length : 0
+})
+
+watch(newBio, _ => {
+  numberOfSymbols.value = newBio.value ? newBio.value.length : 0
+  wordLimitExceeded.value = numberOfSymbols.value > 150
 })
 
 </script>
@@ -53,7 +58,7 @@ onMounted(() => {
           class="flex flex-col gap-1 *:w-full border-b-[#C1C1C1] has-[:focus]:border-b-[#d4a26f] border-b-2 transition-colors">
         <label class="sm:text-[18px] text-[14px]" for="bio>">Био</label>
         <textarea
-            v-model="newBio"
+            v-model.trim="newBio"
             class="resize-none font-light w-full bg-transparent placeholder-opacity-70 placeholder-[#C1C1C1] sm:text-[18px] text-[16px] no-scrollbar"
             name="bio>"
             placeholder="В поисках адекватных тиммейтов..."
@@ -63,6 +68,9 @@ onMounted(() => {
       <span
           :class="errorOccurred ? 'block' :'hidden'"
           class="text-[#FF5F5F] sm:text-[18px] text-[14px]">Произошла ошибка.</span>
+      <span
+          :class="wordLimitExceeded ? 'text-[#FF5F5F]' :'text-white'"
+          class="sm:text-[18px] text-[14px] leading-none">{{ numberOfSymbols }} / 150</span>
       <div class="flex flex-row gap-2 *:basis-1/2">
         <button class="w-full rounded-xl transition-all flex justify-center
                           hover:bg-[#d4a26f] hover:text-white
@@ -73,6 +81,7 @@ onMounted(() => {
           <span>Отменить</span>
         </button>
         <button :class="!loadingState && 'py-2'"
+                :disabled="wordLimitExceeded"
                 class="w-full rounded-xl transition-all flex justify-center items-center
                           bg-[#d4a26f] text-white
                           disabled:bg-[#d4a26f]/50 disabled:text-white/60
