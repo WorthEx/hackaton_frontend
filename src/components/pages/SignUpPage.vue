@@ -65,7 +65,7 @@ const signUp = async () => {
       })
       if (response.status === 200) {
         await router.push("/sign-in")
-        toast.success("Регистрация прошла успешно!")
+        toast.success("Проверьте электронную почту для подтверждения регистрации.")
       }
     } catch (e) {
       if (e.includes("409")) toast.error("Аккаунт с таким именем пользователя уже существует! Используйте другое.")
