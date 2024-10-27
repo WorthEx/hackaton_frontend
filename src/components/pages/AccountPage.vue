@@ -69,7 +69,6 @@ const getUserInfo = async () => {
     const response = await accountAPI.getUserInfo()
     if (response.status === 200) {
       const responseData = response.data
-      console.log(responseData)
       firstname.value = responseData.firstName.charAt(0).toUpperCase() + responseData.firstName.slice(1);
       lastname.value = responseData.lastName.charAt(0).toUpperCase() + responseData.lastName.slice(1);
       email.value = responseData.email

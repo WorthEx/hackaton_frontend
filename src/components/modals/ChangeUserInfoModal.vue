@@ -43,8 +43,6 @@ const updateUserInfo = async () => {
       const response = await accountAPI.updateUserInfo(newUserInfo.value)
       if (response.status === 200) {
         errorOccurred.value = false
-        const responseData = response.data
-        console.log(responseData)
         toast.success("Данные профиля обновлены!")
         emit('updateDataEvent', newUserInfo.value)
       }

@@ -25,8 +25,6 @@ const updateBio = async () => {
     const response = await accountAPI.updateBio(newBio.value)
     if (response.status === 200) {
       errorOccurred.value = false
-      const responseData = response.data
-      console.log(responseData)
       toast.success("Биография изменена!")
       emit('updateBioEvent', newBio.value)
     }

@@ -5,6 +5,10 @@ export default {
 		return API().post("/auth/login", loginData)
 	},
 
+	register(registerData) {
+		return API().post("/auth/registration", registerData)
+	},
+
 	verifyRegistration(code) {
 		return API().get(`/auth/verify?code=${code}`)
 	},

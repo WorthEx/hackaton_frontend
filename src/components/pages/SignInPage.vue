@@ -28,12 +28,10 @@ const signIn = async () => {
     loadingState.value = true
     try {
       const response = await accountAPI.login(loginData.value)
-      console.log(response)
       if (response.status === 200) {
         errorOccurred.value = false
         authStore.isLoggedIn = true
         const responseData = jwtDecode(response.data.jwt)
-        console.log(responseData)
         localStorage.setItem(string_constants.accessToken, response.data.jwt)
         localStorage.setItem(string_constants.username, responseData.sub)
         localStorage.setItem(string_constants.firstname, responseData.firstname)
