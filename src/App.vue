@@ -1,6 +1,6 @@
 <script setup>
-import Footer from './components/Footer.vue'
 import Navigation from "@/components/Navigation.vue";
+import Footer from "@/components/Footer.vue";
 
 document.title = "Карагандинская ОУНБ им. Н.В. Гоголя"
 </script>

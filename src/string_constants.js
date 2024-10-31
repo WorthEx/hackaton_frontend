@@ -5,5 +5,9 @@ export default {
 	email: "EMAIL",
 	lastname: "LASTNAME",
 	firstname: "FIRSTNAME",
-	city: "CITY"
+	city: "CITY",
+	order: {
+		newest: "newest",
+		relevance: "relevance"
+	}
 }

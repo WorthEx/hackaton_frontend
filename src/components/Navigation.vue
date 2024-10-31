@@ -42,11 +42,11 @@ const switchSidebar = () => {
                 to="/books">
               Книги
             </RouterLink>
-            <RouterLink
-                class="after:block after:h-[1px] hover:after:w-full after:w-0 after:bg-[#d4a26f] after:duration-150 after:transition-all transition-all active:text-[#d4a26f]"
-                to="/forums">
-              Форумы
-            </RouterLink>
+            <!--            <RouterLink-->
+            <!--                class="after:block after:h-[1px] hover:after:w-full after:w-0 after:bg-[#d4a26f] after:duration-150 after:transition-all transition-all active:text-[#d4a26f]"-->
+            <!--                to="/forums">-->
+            <!--              Форумы-->
+            <!--            </RouterLink>-->
             <RouterLink
                 :to="authStore.isLoggedIn ? toAccountPageLink() : '/sign-in'"
                 class="hover:text-[#d4a26f] text-white transition-all"><i
@@ -78,14 +78,14 @@ const switchSidebar = () => {
         Книги
         <i class="bi bi-arrow-right-short text-[20px]"></i>
       </RouterLink>
-      <RouterLink
-          class="w-full p-4 active:ml-1 transition-all flex items-center justify-between hover:ml-1 hover:text-[#d4a26f]
-          animate-fade-down animate-duration-[300ms] animate-ease-out animate-delay-200"
-          to="/forums"
-          @click="switchSidebar">
-        Форумы
-        <i class="bi bi-arrow-right-short text-[20px]"></i>
-      </RouterLink>
+      <!--      <RouterLink-->
+      <!--          class="w-full p-4 active:ml-1 transition-all flex items-center justify-between hover:ml-1 hover:text-[#d4a26f]-->
+      <!--          animate-fade-down animate-duration-[300ms] animate-ease-out animate-delay-200"-->
+      <!--          to="/forums"-->
+      <!--          @click="switchSidebar">-->
+      <!--        Форумы-->
+      <!--        <i class="bi bi-arrow-right-short text-[20px]"></i>-->
+      <!--      </RouterLink>-->
       <RouterLink
           :to="authStore.isLoggedIn ? toAccountPageLink() : '/sign-in'"
           class="w-full p-4 active:ml-1 transition-all flex items-center justify-between hover:ml-1 hover:text-[#d4a26f]

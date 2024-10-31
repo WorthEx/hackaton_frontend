@@ -21,11 +21,11 @@ const routes = [
 		name: "Account page",
 		component: () => import("@/components/pages/AccountPage.vue"),
 	},
-	// {
-	// 	path: "/books",
-	// 	name: "Books",
-	// 	component: () => import("@/components/pages/Books.vue"),
-	// },
+	{
+		path: "/books",
+		name: "Books",
+		component: () => import("@/components/pages/Books.vue"),
+	},
 	{
 		path: "/auth/verify",
 		name: "Change password",

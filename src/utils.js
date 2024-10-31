@@ -24,3 +24,7 @@ export const toAccountPageLink = () => {
 	const usernameFromToken = jwtDecode(localStorage.getItem(string_constants.accessToken)).sub
 	return `/user/${usernameFromToken}`
 }
+
+export const stringToQueryParameter = (string) => {
+	return string.replace(/\s+/g, "+")
+}
