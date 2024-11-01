@@ -1,39 +1,63 @@
 <script setup>
 import Container from "@/components/Container.vue";
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref, watch} from "vue";
 import BooksAPI from "@/apis/BooksAPI.js";
 import BookList from "@/components/BookList.vue";
+import {toast} from "vue3-toastify";
+import string_constants from "@/string_constants.js";
 
 const queryText = ref("")
 const persistentQuery = ref("")
 const bookList = ref([])
+const loading = ref(false)
+const orderIndex = ref(1)
+const order = computed(
+    _ => string_constants.order[
+        Object.keys(string_constants.order)[orderIndex.value % Object.entries(string_constants.order).length]
+        ]
+)
 
 const queryInput = ref()
 
 const findBooks = async (query, startIndex) => {
   queryInput.value.blur()
   if (queryText.value === "") return;
+  loading.value = true
   if (startIndex === 0) persistentQuery.value = queryText.value
-
-  const response = await BooksAPI.search({
-    query: query,
-    startIndex: startIndex
-  });
-  if (response.status === 200) {
-    startIndex === 0 ?
-        bookList.value = response.data.items :
-        bookList.value.push(...response.data.items)
-    console.log(bookList.value)
+  try {
+    const response = await BooksAPI.search({
+      query: query,
+      startIndex: startIndex,
+      order: order.value,
+    });
+    if (response.status === 200) {
+      startIndex === 0 ?
+          bookList.value = response.data.items :
+          bookList.value.push(...response.data.items)
+      console.log(bookList.value)
+    }
+  } catch (_) {
+    toast.error('Ошибка загрузки')
+  } finally {
+    loading.value = false
   }
 }
 
 const findFictionBooks = async (startIndex) => {
-  const response = await BooksAPI.getFiction({
-    startIndex: startIndex
-  });
-  if (response.status === 200) {
-    bookList.value.push(...response.data.items)
-    console.log(bookList.value)
+  loading.value = true
+  try {
+    const response = await BooksAPI.getFiction({
+      startIndex: startIndex,
+      order: order.value,
+    });
+    if (response.status === 200) {
+      bookList.value.push(...response.data.items)
+      console.log(bookList.value)
+    }
+  } catch (_) {
+    toast.error('Ошибка загрузки')
+  } finally {
+    loading.value = false;
   }
 }
 
@@ -47,16 +71,25 @@ onMounted(async _ => {
   await findFictionBooks(0)
 })
 
+watch(order, _ => {
+  if (persistentQuery.value === "") findFictionBooks(0)
+  else findBooks(queryText.value, 0)
+})
+
 document.onkeydown = async (e) => {
   if (e.key === 'Enter' && queryInput.value === document.activeElement) await findBooks(queryText.value, 0)
   else if (e.key === 'Escape' && queryInput.value === document.activeElement) queryInput.value.blur()
+  else if (e.key === '/') {
+    e.preventDefault()
+    queryInput.value.focus()
+  }
 }
 
 </script>
 
 <template>
   <div
-      class="md:min-h-[calc(100vh-3em)] min-h-[calc(100vh-2em)] pb-10">
+      class="md:min-h-[calc(100vh-3em)] min-h-[calc(100vh-2em)] pb-4 md:pb-10">
     <div class="flex flex-col">
       <div class="basis-[35%] relative size-full grid place-items-center place-content-center py-10 md:py-20">
         <img alt=""
@@ -83,15 +116,45 @@ document.onkeydown = async (e) => {
                 <i class="bi bi-search text-white leading-none md:text-[20px] text-[14px]"/>
               </div>
             </div>
+            <div
+                class="flex flex-col select-none cursor-pointer bg-black/50 backdrop-blur-xl rounded-md
+                text-white md:text-[20px] text-[16px] font-light leading-none transition-all ring-[#d4a26f]/50 ring-2">
+              <div class="px-2 py-1.5"
+                   @click="_ => {
+                     orderIndex += 1
+                   }">
+                Sorting by {{ order }}
+              </div>
+            </div>
           </div>
         </Container>
       </div>
-      <div class="basis-[65%] size-full bg-[#101415] pt-10 flex flex-col items-center gap-10">
+      <div
+          class="basis-[65%] size-full bg-[#101415] flex flex-col items-center gap-4 md:gap-10 pt-4 md:pt-10">
         <Container>
-          <BookList :bookList="bookList"/>
+          <BookList v-if="!loading" :bookList="bookList"/>
+          <div v-else class="size-full flex flex-col gap-2 items-center justify-center">
+            <svg class="size-[40px] md:size-[60px]" viewBox="0 0 200 200"
+                 xmlns="http://www.w3.org/2000/svg">
+              <circle cx="40" cy="65" fill="#ffffff" r="10" stroke="#ffffff" stroke-width="2">
+                <animate attributeName="cy" begin="-.4" calcMode="spline" dur="2" keySplines=".5 0 .5 1;.5 0 .5 1"
+                         repeatCount="indefinite" values="65;135;65;"></animate>
+              </circle>
+              <circle cx="100" cy="65" fill="#ffffff" r="10" stroke="#ffffff" stroke-width="2">
+                <animate attributeName="cy" begin="-.2" calcMode="spline" dur="2" keySplines=".5 0 .5 1;.5 0 .5 1"
+                         repeatCount="indefinite" values="65;135;65;"></animate>
+              </circle>
+              <circle cx="160" cy="65" fill="#ffffff" r="10" stroke="#ffffff" stroke-width="2">
+                <animate attributeName="cy" begin="0" calcMode="spline" dur="2" keySplines=".5 0 .5 1;.5 0 .5 1"
+                         repeatCount="indefinite" values="65;135;65;"></animate>
+              </circle>
+            </svg>
+            <span class="text-white font-light md:text-[24px] text-[16px]">Загрузка</span>
+          </div>
         </Container>
-        <div class="text-white/80 font-normal px-4 py-2 rounded-md ring-white/80 ring-2 select-none cursor-pointer
-                    active:scale-[98.5%] transition-all" @click="fetchMore">
+        <div v-if="!loading" class="text-white/50 duration-300 w-fit hover:text-white md:text-[20px] text-[16px] font-normal md:px-4 px-3 py-2 rounded-md ring-white/50 hover:ring-white ring-2 select-none cursor-pointer
+                    active:scale-[98.5%] transition-all"
+             @click="fetchMore">
           Загрузить ещё
         </div>
       </div>
