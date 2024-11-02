@@ -1,8 +1,24 @@
 <script setup>
 import Navigation from "@/components/Navigation.vue";
 import Footer from "@/components/Footer.vue";
+import {onBeforeMount, provide, ref} from "vue";
+import string_constants from "@/string_constants.js";
 
 document.title = "Карагандинская ОУНБ им. Н.В. Гоголя"
+const loggedIn = ref(false);
+
+const onLogout = () => loggedIn.value = false;
+const onLogin = () => loggedIn.value = true;
+
+provide('loggedIn', {
+  loggedIn,
+  onLogin,
+  onLogout
+})
+
+onBeforeMount(_ => {
+  loggedIn.value = sessionStorage.getItem(string_constants.loggedIn) === "true";
+})
 </script>
 
 <template>
@@ -15,7 +31,7 @@ document.title = "Карагандинская ОУНБ им. Н.В. Гогол�
     <Navigation/>
     <div
         class="mt-[2em] md:mt-[3em] size-full">
-      <RouterView/>
+      <RouterView @login="onLogin"/>
     </div>
     <Footer/>
   </div>

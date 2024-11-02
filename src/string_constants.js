@@ -1,6 +1,7 @@
 export default {
 	accessToken: "ACCESS_TOKEN",
 	refreshToken: "REFRESH_TOKEN",
+	loggedIn: "LOGGED_IN",
 	username: "USERNAME",
 	email: "EMAIL",
 	lastname: "LASTNAME",

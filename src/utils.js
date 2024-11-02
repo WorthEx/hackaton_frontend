@@ -1,8 +1,6 @@
 import router from "@/router/index.js";
 import string_constants from "@/string_constants.js";
 import {jwtDecode} from "jwt-decode";
-import {useAuthStore} from "@/stores/store.js";
-
 
 export const tokenSaved = () => {
 	return (
@@ -14,9 +12,8 @@ export const tokenSaved = () => {
 }
 
 export const logout = async () => {
-	const authStore = useAuthStore()
-	authStore.isLoggedIn = false
 	localStorage.clear()
+	sessionStorage.clear()
 	await router.push("/sign-in")
 }
 

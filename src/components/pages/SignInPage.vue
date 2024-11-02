@@ -1,11 +1,12 @@
 <script setup>
-import {onMounted, ref} from "vue";
+import {inject, onMounted, ref} from "vue";
 import accountAPI from "@/apis/AccountAPI.js";
 import string_constants from "@/string_constants.js";
 import router from "@/router/index.js";
 import {jwtDecode} from "jwt-decode";
 import {toAccountPageLink, tokenSaved} from "@/utils.js";
-import {useAuthStore} from "@/stores/store.js";
+
+const {onLogin} = inject('loggedIn')
 
 const loginData = ref(
     {
@@ -17,10 +18,8 @@ const passwordHidden = ref(true)
 const errorOccurred = ref(false)
 const loadingState = ref(false)
 
-const authStore = useAuthStore()
-
 onMounted(async () => {
-  if (tokenSaved()) await router.push(toAccountPageLink());
+  if (tokenSaved() && sessionStorage.getItem(string_constants.loggedIn) === "true") await router.push(toAccountPageLink());
 })
 
 const signIn = async () => {
@@ -30,7 +29,8 @@ const signIn = async () => {
       const response = await accountAPI.login(loginData.value)
       if (response.status === 200) {
         errorOccurred.value = false
-        authStore.isLoggedIn = true
+        sessionStorage.setItem(string_constants.loggedIn, "true")
+        onLogin()
         const responseData = jwtDecode(response.data.jwt)
         localStorage.setItem(string_constants.accessToken, response.data.jwt)
         localStorage.setItem(string_constants.username, responseData.sub)

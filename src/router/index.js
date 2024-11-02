@@ -24,7 +24,7 @@ const routes = [
 	{
 		path: "/books",
 		name: "Books",
-		component: () => import("@/components/pages/Books.vue"),
+		component: () => import("@/components/pages/Books.vue")
 	},
 	{
 		path: "/auth/verify",

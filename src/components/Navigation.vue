@@ -1,13 +1,11 @@
 <script setup>
-import {ref} from "vue";
+import {inject, ref} from "vue";
 import Container from "@/components/Container.vue";
-import {logout, toAccountPageLink, tokenSaved} from "@/utils.js";
-import {useAuthStore} from "@/stores/store.js";
+import {logout, toAccountPageLink} from "@/utils.js";
+
+const {onLogout, loggedIn} = inject('loggedIn')
 
 const sidebarOpened = ref(false)
-
-const authStore = useAuthStore()
-
 
 const switchSidebar = () => {
   sidebarOpened.value = !sidebarOpened.value
@@ -16,12 +14,13 @@ const switchSidebar = () => {
   }
 }
 
+
 </script>
 
 <template>
   <div class="relative">
     <div
-        class="h-[2em] md:h-[3em] w-full bg-black select-none text-white fixed top-0 z-[999] after:bg-[#d4a26f] after:w-full after:h-[3px] after:absolute">
+        class="h-[2em] md:h-[3em] w-full bg-black select-none text-white fixed top-0 z-[999] after:bg-[#d4a26f] after:w-full after:h-[2px] after:absolute">
       <Container>
         <div class="flex justify-between items-center h-full text-[14px] md:text-[16px]">
           <RouterLink class="flex md:gap-2 items-center h-full" to="/">
@@ -42,18 +41,16 @@ const switchSidebar = () => {
                 to="/books">
               Книги
             </RouterLink>
-            <!--            <RouterLink-->
-            <!--                class="after:block after:h-[1px] hover:after:w-full after:w-0 after:bg-[#d4a26f] after:duration-150 after:transition-all transition-all active:text-[#d4a26f]"-->
-            <!--                to="/forums">-->
-            <!--              Форумы-->
-            <!--            </RouterLink>-->
             <RouterLink
-                :to="authStore.isLoggedIn ? toAccountPageLink() : '/sign-in'"
+                :to="loggedIn ? toAccountPageLink() : '/sign-in'"
                 class="hover:text-[#d4a26f] text-white transition-all"><i
                 class="bi bi-person-circle"></i></RouterLink>
-            <i v-if="tokenSaved()"
+            <i v-if="loggedIn"
                class="bi bi-box-arrow-right text-[14px] md:text-[18px] hover:text-[#d4a26f] cursor-pointer text-white transition-all"
-               @click="logout()"></i>
+               @click="_ => {
+                 onLogout()
+                 logout()
+               }"></i>
           </nav>
           <i class="bi bi-list text-white md:hidden block text-[20px]" @click="switchSidebar"></i>
         </div>
@@ -78,24 +75,19 @@ const switchSidebar = () => {
         Книги
         <i class="bi bi-arrow-right-short text-[20px]"></i>
       </RouterLink>
-      <!--      <RouterLink-->
-      <!--          class="w-full p-4 active:ml-1 transition-all flex items-center justify-between hover:ml-1 hover:text-[#d4a26f]-->
-      <!--          animate-fade-down animate-duration-[300ms] animate-ease-out animate-delay-200"-->
-      <!--          to="/forums"-->
-      <!--          @click="switchSidebar">-->
-      <!--        Форумы-->
-      <!--        <i class="bi bi-arrow-right-short text-[20px]"></i>-->
-      <!--      </RouterLink>-->
       <RouterLink
-          :to="authStore.isLoggedIn ? toAccountPageLink() : '/sign-in'"
+          :to="loggedIn ? toAccountPageLink() : '/sign-in'"
           class="w-full p-4 active:ml-1 transition-all flex items-center justify-between hover:ml-1 hover:text-[#d4a26f]
           animate-fade-down animate-duration-[300ms] animate-ease-out animate-delay-300"
           @click="switchSidebar">
         Аккаунт
         <i class="bi bi-arrow-right-short text-[20px]"></i>
       </RouterLink>
-      <div v-if="tokenSaved()" class="w-full p-4 active:ml-1 transition-all flex items-center justify-between hover:ml-1 hover:text-[#d4a26f]
-          animate-fade-down animate-duration-[300ms] animate-ease-out animate-delay-[400ms]" @click="logout()">
+      <div v-if="loggedIn" class="w-full p-4 active:ml-1 transition-all flex items-center justify-between hover:ml-1 hover:text-[#d4a26f]
+          animate-fade-down animate-duration-[300ms] animate-ease-out animate-delay-[400ms]" @click="_ => {
+          onLogout()
+            logout()
+          }">
         Выйти
         <i class="bi bi-arrow-right-short text-[20px]"></i>
       </div>

@@ -4,11 +4,10 @@ import string_constants from "@/string_constants.js";
 import {jwtDecode} from "jwt-decode";
 import {useRoute} from "vue-router";
 import router from "@/router/index.js";
-import {tokenSaved} from "@/utils.js";
+import {logout, tokenSaved} from "@/utils.js";
 import ChangeUserInfoModal from "@/components/modals/ChangeUserInfoModal.vue";
 import Loading from "@/components/loading/Loading.vue";
 import {useModal} from "@/components/modals/useModal.js";
-import {useAuthStore} from "@/stores/store.js";
 import {toast} from "vue3-toastify";
 import {useLoading} from "@/components/loading/useLoading.js";
 import accountAPI from "@/apis/AccountAPI.js";
@@ -30,7 +29,6 @@ const bioCollapsed = ref(true)
 const modal = useModal()
 const loading = useLoading()
 const route = useRoute()
-const authStore = useAuthStore()
 
 const fullNameEl = ref()
 const cityEl = ref()
@@ -42,7 +40,7 @@ onBeforeMount(() => {
 })
 
 onMounted(async () => {
-  if (tokenSaved()) {
+  if (tokenSaved() && sessionStorage.getItem(string_constants.loggedIn) === "true") {
     try {
       const urlUsername = route.params.userId;
       const jwtUsername = jwtDecode(localStorage.getItem(string_constants.accessToken)).sub;
@@ -61,7 +59,10 @@ onMounted(async () => {
 
     updateLSUserData()
 
-  } else await router.push("/sign-in")
+  } else {
+    await logout()
+    await router.push("/sign-in")
+  }
 })
 
 const getUserInfo = async () => {

@@ -1,10 +1,12 @@
 <script setup>
 import Container from "@/components/Container.vue";
-import {computed, onMounted, ref, watch} from "vue";
+import {computed, inject, onMounted, ref, watch} from "vue";
 import BooksAPI from "@/apis/BooksAPI.js";
 import BookList from "@/components/BookList.vue";
 import {toast} from "vue3-toastify";
 import string_constants from "@/string_constants.js";
+
+const {loggedIn} = inject('loggedIn')
 
 const queryText = ref("")
 const persistentQuery = ref("")
@@ -21,9 +23,21 @@ const queryInput = ref()
 
 const findBooks = async (query, startIndex) => {
   queryInput.value.blur()
-  if (queryText.value === "") return;
   loading.value = true
-  if (startIndex === 0) persistentQuery.value = queryText.value
+  if (queryText.value === "" && persistentQuery.value === "") {
+    loading.value = false
+    return
+  } else if (queryText.value === "" && persistentQuery.value !== "") {
+    persistentQuery.value = ""
+    bookList.value = []
+    await findFictionBooks(0)
+    loading.value = false
+    return;
+  }
+  if (startIndex === 0) {
+    persistentQuery.value = queryText.value
+    bookList.value = []
+  }
   try {
     const response = await BooksAPI.search({
       query: query,
@@ -45,13 +59,16 @@ const findBooks = async (query, startIndex) => {
 
 const findFictionBooks = async (startIndex) => {
   loading.value = true
+  if (startIndex === 0) bookList.value = []
   try {
     const response = await BooksAPI.getFiction({
       startIndex: startIndex,
       order: order.value,
     });
     if (response.status === 200) {
-      bookList.value.push(...response.data.items)
+      startIndex === 0 ?
+          bookList.value = response.data.items :
+          bookList.value.push(...response.data.items)
       console.log(bookList.value)
     }
   } catch (_) {
@@ -67,9 +84,7 @@ const fetchMore = async () => {
   else await findBooks(persistentQuery.value, bookList.value.length + 1)
 }
 
-onMounted(async _ => {
-  await findFictionBooks(0)
-})
+onMounted(async _ => await findFictionBooks(0))
 
 watch(order, _ => {
   if (persistentQuery.value === "") findFictionBooks(0)
@@ -117,8 +132,8 @@ document.onkeydown = async (e) => {
               </div>
             </div>
             <div
-                class="flex flex-col select-none cursor-pointer bg-black/50 backdrop-blur-xl rounded-md
-                text-white md:text-[20px] text-[16px] font-light leading-none transition-all ring-[#d4a26f]/50 ring-2">
+                class="duration-300 flex flex-col select-none cursor-pointer bg-black/50 backdrop-blur-xl rounded-md
+                text-white md:text-[20px] text-[16px] font-light leading-none transition-all ring-[#d4a26f]/50 hover:ring-[#d4a26f] hover:ring-2 ring-1">
               <div class="px-2 py-1.5"
                    @click="_ => {
                      orderIndex += 1
@@ -132,8 +147,8 @@ document.onkeydown = async (e) => {
       <div
           class="basis-[65%] size-full bg-[#101415] flex flex-col items-center gap-4 md:gap-10 pt-4 md:pt-10">
         <Container>
-          <BookList v-if="!loading" :bookList="bookList"/>
-          <div v-else class="size-full flex flex-col gap-2 items-center justify-center">
+          <div v-if="loading && bookList.length === 0"
+               class="size-full flex flex-col gap-2 items-center justify-center">
             <svg class="size-[40px] md:size-[60px]" viewBox="0 0 200 200"
                  xmlns="http://www.w3.org/2000/svg">
               <circle cx="40" cy="65" fill="#ffffff" r="10" stroke="#ffffff" stroke-width="2">
@@ -151,11 +166,29 @@ document.onkeydown = async (e) => {
             </svg>
             <span class="text-white font-light md:text-[24px] text-[16px]">Загрузка</span>
           </div>
+          <BookList v-else :bookList="bookList"/>
         </Container>
-        <div v-if="!loading" class="text-white/50 duration-300 w-fit hover:text-white md:text-[20px] text-[16px] font-normal md:px-4 px-3 py-2 rounded-md ring-white/50 hover:ring-white ring-2 select-none cursor-pointer
-                    active:scale-[98.5%] transition-all"
+        <div v-if="bookList.length !== 0"
+             :class="!loading && 'ring-2'"
+             class="text-white/50 transition-all w-fit hover:text-white md:text-[20px] text-[16px] font-normal
+             md:px-4 px-3 py-2 rounded-md ring-white/50 hover:ring-white select-none cursor-pointer active:scale-[98.5%]"
              @click="fetchMore">
-          Загрузить ещё
+          <svg v-if="loading" class="size-[40px] md:size-[60px]" viewBox="0 0 200 200"
+               xmlns="http://www.w3.org/2000/svg">
+            <circle cx="40" cy="65" fill="#ffffff" r="10" stroke="#ffffff" stroke-width="2">
+              <animate attributeName="cy" begin="-.4" calcMode="spline" dur="2" keySplines=".5 0 .5 1;.5 0 .5 1"
+                       repeatCount="indefinite" values="65;135;65;"></animate>
+            </circle>
+            <circle cx="100" cy="65" fill="#ffffff" r="10" stroke="#ffffff" stroke-width="2">
+              <animate attributeName="cy" begin="-.2" calcMode="spline" dur="2" keySplines=".5 0 .5 1;.5 0 .5 1"
+                       repeatCount="indefinite" values="65;135;65;"></animate>
+            </circle>
+            <circle cx="160" cy="65" fill="#ffffff" r="10" stroke="#ffffff" stroke-width="2">
+              <animate attributeName="cy" begin="0" calcMode="spline" dur="2" keySplines=".5 0 .5 1;.5 0 .5 1"
+                       repeatCount="indefinite" values="65;135;65;"></animate>
+            </circle>
+          </svg>
+          <span v-else>Загрузить ещё</span>
         </div>
       </div>
     </div>

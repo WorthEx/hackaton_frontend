@@ -27,16 +27,16 @@ const setAfterSlideChangedStyles = (el) => {
     <div
         class="2xl:w-[60%] w-full 2xl:backdrop-blur-lg backdrop-blur-sm border-r-[1px] border-r-white border-opacity-30 md:min-h-[calc(100vh-3em)] min-h-[calc(100vh-2em)]
 grid place-content-center px-8 select-none">
-        <span class="2xl:text-[60px] md:text-[45px] text-[30px] font-bold text-white leading-tight
+      <span class="qhd:text-[60px] md:text-[45px] text-[30px] font-bold text-white leading-tight
       animate-fade-up animate-duration-[1500ms] animate-ease-out animate-delay-0">
           Карагандинская областная<br>универсальная научная библиотека</span>
-      <span class="2xl:text-[45px] md:text-[30px] text-[20px] font-thin text-white
+      <span class="qhd:text-[45px] md:text-[30px] text-[20px] font-thin text-white
 animate-fade-up animate-duration-[1500ms] animate-ease-out animate-delay-100">
           Читайте всё, что угодно.</span>
       <RouterLink
           class="mt-8 *:text-white font-medium bg-[#d4a26f] overflow-hidden rounded-full md:px-4 px-3 py-2 flex gap-1 items-center
-            2xl:h-[2.5em] md:h-[2.7em] h-[3.2em] w-fit hover:bg-[#B58A60] transition-all
-            2xl:text-[25px] md:text-[20px] text-[15px] active:scale-[97%]
+            qhd:h-[2.5em] md:h-[2.7em] h-[3.2em] w-fit hover:bg-[#B58A60] transition-all
+            qhd:text-[25px] md:text-[20px] text-[15px] active:scale-[97%]
             animate-fade-up animate-duration-[1500ms] animate-ease-out animate-delay-200"
           to="/books">
         <p>Найти</p>
