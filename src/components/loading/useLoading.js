@@ -6,6 +6,6 @@ export const useLoading = () => {
 	return {
 		show,
 		showLoading: () => show.value = true,
-		hideLoading: () => show.value = false,
+		hideLoading: () => show.value = false
 	}
 }

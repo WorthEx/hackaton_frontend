@@ -6,7 +6,6 @@ import {useRoute} from "vue-router";
 import router from "@/router/index.js";
 import {logout, tokenSaved} from "@/utils.js";
 import ChangeUserInfoModal from "@/components/modals/ChangeUserInfoModal.vue";
-import Loading from "@/components/loading/Loading.vue";
 import {useModal} from "@/components/modals/useModal.js";
 import {toast} from "vue3-toastify";
 import {useLoading} from "@/components/loading/useLoading.js";
@@ -169,13 +168,6 @@ const updateLSUserData = () => {
                  @updateDataEvent="(newData) => onUpdateDataEvent(newData)"/>
     </Transition>
   </Teleport>
-  <Teleport to="#loading">
-    <Transition>
-      <Loading v-if="loading.show.value" :error="loadingError" error-msg="Ошибка при получении данных">
-        Загрузка ваших данных
-      </Loading>
-    </Transition>
-  </Teleport>
   <div
       class="md:min-h-[calc(100vh-3em)] min-h-[calc(100vh-2em)] relative size-full">
 
@@ -185,10 +177,8 @@ const updateLSUserData = () => {
 
     <div
         class="bg-black/45 backdrop-blur-lg md:h-[calc(100vh-3em)] h-[calc(100vh-2em)] overflow-hidden
-                 flex flex-col mx-auto w-full max-w-lg lg:max-w-xl xl:max-w-2xl 2xl:max-w-4xl">
+                 flex flex-col mx-auto w-full max-w-lg lg:max-w-xl xl:max-w-2xl 2xl:max-w-4xl animate-fade-down animate-once animate-ease-out animate-duration-[1500ms]">
       <section class="w-full md:h-[35%] h-[25%] relative">
-        <!--        <img alt="bruh" class="size-full object-cover object-center pointer-events-none select-none"-->
-        <!--             src="@/assets/images/white_bookshelf.jpg">-->
         <div
             alt="bruh"
             class="size-full object-cover object-center pointer-events-none select-none"
@@ -256,14 +246,16 @@ const updateLSUserData = () => {
             <i :class="showPen ? 'opacity-100' : 'opacity-0'"
                class="transition-opacity bi bi-pencil-fill text-[#d4a26f] md:text-[20px] text-[16px]"></i>
           </div>
-          <div ref="cityEl" class="transition-all delay-100 flex flex-row gap-1 items-center w-fit *:leading-none">
+          <div ref="cityEl"
+               class="transition-all delay-100 flex flex-row gap-1 items-center w-fit *:leading-none">
             <i class="bi bi-geo-alt-fill text-white md:text-[18px] text-[16px] text-center"></i>
             <span
                 class="text-[#9C9C9C] md:text-[20px] text-[16px] w-fit select-all">
                 {{ city ? city : "Город не указан" }}
             </span>
           </div>
-          <div class="flex flex-row gap-1 items-center w-fit *:leading-none">
+          <div
+              class="flex flex-row gap-1 items-center w-fit *:leading-none">
             <i class="bi bi-envelope-fill text-white md:text-[18px] text-[16px] text-center"></i>
             <span
                 class="text-[#9C9C9C] md:text-[20px] text-[16px] w-fit select-all">
@@ -291,13 +283,13 @@ const updateLSUserData = () => {
       </section>
       <section ref="bioEl"
                class="w-full *:w-full pb-2 md:pl-[100px] pl-[25px] md:pr-8 pr-4 transition-all duration-200">
-        <p :class="[bioCollapsed ? ' line-clamp-2' : '', bio ? 'text-white/90' : 'text-[#9C9C9C]']"
+        <p :class="[bioCollapsed ? 'line-clamp-2' : '', bio ? 'text-white/90' : 'text-[#9C9C9C]']"
            class=" font-light md:text-[20px] text-[16px] select-none text-pretty text-justify
            hover:bg-white/10 transition-all rounded-md cursor-pointer break-all"
            @click="openChangeBioModal()">
           {{ bio ? bio : 'Расскажите что-нибудь о себе...' }}
         </p>
-        <div class="w-fit flex justify-end">
+        <div class="w-fit flex justify-end xl:hidden">
           <span
               class="text-white/60 hover:text-white transition-colors font md:text-[20px] text-[16px] select-none cursor-pointer"
               @click="_ => bioCollapsed = !bioCollapsed">{{
@@ -310,13 +302,4 @@ const updateLSUserData = () => {
 </template>
 
 <style scoped>
-.v-enter-active,
-.v-leave-active {
-  transition: opacity .2s ease-in;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
-}
 </style>

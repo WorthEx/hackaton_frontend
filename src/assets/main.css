@@ -20,3 +20,43 @@ body {
 .no-scrollbar::-webkit-scrollbar {
     display: none;
 }
+
+@layer utilities {
+    @keyframes backdropBlurInSm {
+        0% {
+            backdrop-filter: blur(0px);
+        }
+        30% {
+            backdrop-filter: blur(1px);
+        }
+        60% {
+            backdrop-filter: blur(2px);
+        }
+        100% {
+            backdrop-filter: blur(4px);
+        }
+    }
+
+    .blur-in-sm {
+        animation: backdropBlurInSm 1s forwards ease-out;
+    }
+
+    @keyframes backdropBlurInMd {
+        0% {
+            backdrop-filter: blur(0px);
+        }
+        30% {
+            backdrop-filter: blur(30px);
+        }
+        60% {
+            backdrop-filter: blur(20px);
+        }
+        100% {
+            backdrop-filter: blur(12px);
+        }
+    }
+
+    .blur-in-md {
+        animation: backdropBlurInMd 1.5s forwards ease-out;
+    }
+}

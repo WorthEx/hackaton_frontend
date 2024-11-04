@@ -2,7 +2,7 @@
 import Container from "@/components/Container.vue";
 import {computed, inject, onMounted, ref, watch} from "vue";
 import BooksAPI from "@/apis/BooksAPI.js";
-import BookList from "@/components/BookList.vue";
+import BookList from "@/components/books/BookList.vue";
 import {toast} from "vue3-toastify";
 import string_constants from "@/string_constants.js";
 
@@ -13,6 +13,8 @@ const persistentQuery = ref("")
 const bookList = ref([])
 const loading = ref(false)
 const orderIndex = ref(1)
+const lastAddedIndex = ref(0)
+
 const order = computed(
     _ => string_constants.order[
         Object.keys(string_constants.order)[orderIndex.value % Object.entries(string_constants.order).length]
@@ -79,9 +81,10 @@ const findFictionBooks = async (startIndex) => {
 }
 
 const fetchMore = async () => {
+  lastAddedIndex.value = 0
   if (bookList.value.length < 1) return;
-  if (persistentQuery.value === "") await findFictionBooks(bookList.value.length + 1);
-  else await findBooks(persistentQuery.value, bookList.value.length + 1)
+  if (persistentQuery.value === "") await findFictionBooks(bookList.value.length);
+  else await findBooks(persistentQuery.value, bookList.value.length)
 }
 
 onMounted(async _ => await findFictionBooks(0))
@@ -113,12 +116,13 @@ document.onkeydown = async (e) => {
         <Container>
           <div class="flex flex-col md:gap-4 gap-2 items-center ">
             <span
-                class="block leading-none *:leading-none text-white text-center font-bold md:text-[36px] text-[22px] pointer-events-none select-none">
+                class="block leading-none *:leading-none text-white text-center font-bold md:text-[36px] text-[22px] pointer-events-none select-none
+                       animate-fade-up animate-duration-[1500ms] animate-ease-out animate-delay-0">
               Найдите SFW материалы по ключевым словам:<br/>
               <span class="md:text-[20px] text-[14px] font-light">(Каталог предоставлен Google Books)</span>
             </span>
             <div
-                class="flex w-full transition-all">
+                class="flex w-full transition-all animate-fade-up animate-duration-[1500ms] animate-ease-out animate-delay-[200ms]">
               <input id="query" ref="queryInput" v-model.trim="queryText"
                      class="duration-300 ease-out text-white font-light bg-black/20 rounded-l-md w-full backdrop-blur-xl md:text-[20px] text-[16px] ps-2 py-0.5
               focus:ring-[#d4a26f] ring-[#d4a26f]/50 focus:ring-2 ring-1 peer transition-all"
@@ -133,7 +137,8 @@ document.onkeydown = async (e) => {
             </div>
             <div
                 class="duration-300 flex flex-col select-none cursor-pointer bg-black/50 backdrop-blur-xl rounded-md
-                text-white md:text-[20px] text-[16px] font-light leading-none transition-all ring-[#d4a26f]/50 hover:ring-[#d4a26f] hover:ring-2 ring-1">
+                text-white md:text-[20px] text-[16px] font-light leading-none transition-all ring-[#d4a26f]/50 hover:ring-[#d4a26f] hover:ring-2 ring-1
+                animate-fade-up animate-duration-[1500ms] animate-ease-out animate-delay-[400ms]">
               <div class="px-2 py-1.5"
                    @click="_ => {
                      orderIndex += 1
@@ -166,7 +171,7 @@ document.onkeydown = async (e) => {
             </svg>
             <span class="text-white font-light md:text-[24px] text-[16px]">Загрузка</span>
           </div>
-          <BookList v-else :bookList="bookList"/>
+          <BookList v-else :bookList="bookList" :lastAddedIndex="lastAddedIndex"/>
         </Container>
         <div v-if="bookList.length !== 0"
              :class="!loading && 'ring-2'"

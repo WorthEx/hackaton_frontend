@@ -1,4 +1,7 @@
 import {createRouter, createWebHistory} from "vue-router"
+import {useLoading} from "@/components/loading/useLoading.js";
+
+const loading = useLoading();
 
 const routes = [
 	{
@@ -55,6 +58,14 @@ const router = createRouter({
 			})
 		})
 	},
+})
+
+router.beforeEach((to, from, next) => {
+	loading.showLoading()
+	next()
+})
+router.afterEach((to, from) => {
+	loading.hideLoading()
 })
 
 export default router

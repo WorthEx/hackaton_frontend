@@ -6,7 +6,8 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="fixed inset-0 z-[1000] size-full bg-black/50 backdrop-blur-lg">
+  <div
+      class="md:min-h-[calc(100vh-3em)] min-h-[calc(100vh-2em)] fixed inset-0 z-[1000] size-full bg-black/70 backdrop-blur-lg">
     <div class="absolute -translate-x-1/2 left-1/2 -translate-y-1/2 top-1/2
                 flex flex-col items-center gap-5 select-none"
          @click.stop.prevent>

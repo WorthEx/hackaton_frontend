@@ -1,11 +1,14 @@
 <script setup>
 import Navigation from "@/components/Navigation.vue";
 import Footer from "@/components/Footer.vue";
+import Loading from "@/components/loading/Loading.vue";
 import {onBeforeMount, provide, ref} from "vue";
 import string_constants from "@/string_constants.js";
+import {useLoading} from "@/components/loading/useLoading.js";
 
 document.title = "Карагандинская ОУНБ им. Н.В. Гоголя"
 const loggedIn = ref(false);
+const loading = useLoading()
 
 const onLogout = () => loggedIn.value = false;
 const onLogin = () => loggedIn.value = true;
@@ -29,9 +32,13 @@ onBeforeMount(_ => {
       rel="stylesheet">
   <div id="app" class="relative h-full">
     <Navigation/>
-    <div
-        class="mt-[2em] md:mt-[3em] size-full">
-      <RouterView @login="onLogin"/>
+    <Transition>
+      <Loading v-if="loading.show.value">
+        Загрузка
+      </Loading>
+    </Transition>
+    <div class="mt-[2em] md:mt-[3em] size-full">
+      <RouterView/>
     </div>
     <Footer/>
   </div>
@@ -39,4 +46,14 @@ onBeforeMount(_ => {
 
 <style>
 @import "bootstrap-icons/font/bootstrap-icons.css";
+
+.v-enter-active,
+.v-leave-active {
+  //transition: opacity .2s ease-in;
+}
+
+.v-enter-from,
+.v-leave-to {
+  //opacity: 0;
+}
 </style>
