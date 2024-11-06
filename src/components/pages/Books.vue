@@ -52,8 +52,9 @@ const findBooks = async (query, startIndex) => {
           bookList.value.push(...response.data.items)
       console.log(bookList.value)
     }
-  } catch (_) {
+  } catch (e) {
     toast.error('Ошибка загрузки')
+    console.log(e)
   } finally {
     loading.value = false
   }
@@ -150,7 +151,7 @@ document.onkeydown = async (e) => {
         </Container>
       </div>
       <div
-          class="basis-[65%] size-full bg-[#101415] flex flex-col items-center gap-4 md:gap-10 pt-4 md:pt-10">
+          class="basis-[65%] size-full bg-[#101415] flex flex-col items-center gap-4 md:gap-10 pt-2 md:pt-4 2xl:pt-10">
         <Container>
           <div v-if="loading && bookList.length === 0"
                class="size-full flex flex-col gap-2 items-center justify-center">
