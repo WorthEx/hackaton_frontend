@@ -1,10 +1,11 @@
 <script setup>
 import Container from "@/components/Container.vue";
-import {computed, inject, onMounted, ref, watch} from "vue";
+import {computed, inject, onMounted, provide, ref, watch} from "vue";
 import BooksAPI from "@/apis/BooksAPI.js";
 import BookList from "@/components/books/BookList.vue";
 import {toast} from "vue3-toastify";
 import string_constants from "@/string_constants.js";
+import FavoritesAPI from "@/apis/FavoritesAPI.js";
 
 const {loggedIn} = inject('loggedIn')
 
@@ -14,6 +15,7 @@ const bookList = ref([])
 const loading = ref(false)
 const orderIndex = ref(1)
 const lastAddedIndex = ref(0)
+const favoriteList = ref([])
 
 const order = computed(
     _ => string_constants.order[
@@ -88,7 +90,57 @@ const fetchMore = async () => {
   else await findBooks(persistentQuery.value, bookList.value.length)
 }
 
-onMounted(async _ => await findFictionBooks(0))
+const loadFavs = async () => {
+  if (loggedIn.value) {
+    try {
+      const response = await FavoritesAPI.getFavorites()
+      if (response.status === 200) {
+        favoriteList.value = response.data
+        console.log(response.data)
+      }
+    } catch (_) {
+      toast.error("Не удалось получить список избранного")
+    }
+  }
+}
+
+const addTofav = async (bookId) => {
+  if (loggedIn.value) {
+    try {
+      const response = await FavoritesAPI.addFavorite(bookId)
+      if (response.status === 200) {
+        favoriteList.value = response.data
+      }
+    } catch (_) {
+      toast.error("Не удалось обновить список избранного")
+    }
+  }
+  await loadFavs()
+}
+
+const delFromFav = async (bookId) => {
+  if (loggedIn.value) {
+    try {
+      const response = await FavoritesAPI.deleteFavorite(bookId)
+      if (response.status === 200) {
+        favoriteList.value = response.data
+      }
+    } catch (_) {
+      toast.error("Не удалось обновить список избранного")
+    }
+  }
+}
+
+provide('favoriteList', {
+  favoriteList,
+  addTofav,
+  delFromFav
+})
+
+onMounted(async _ => {
+  await findFictionBooks(0)
+  await loadFavs()
+})
 
 watch(order, _ => {
   if (persistentQuery.value === "") findFictionBooks(0)
@@ -172,7 +224,7 @@ document.onkeydown = async (e) => {
             </svg>
             <span class="text-white font-light md:text-[24px] text-[16px]">Загрузка</span>
           </div>
-          <BookList v-else :bookList="bookList" :lastAddedIndex="lastAddedIndex"/>
+          <BookList v-else :bookList="bookList" :favoriteList="favoriteList" :lastAddedIndex="lastAddedIndex"/>
         </Container>
         <div v-if="bookList.length !== 0"
              :class="!loading && 'ring-2'"

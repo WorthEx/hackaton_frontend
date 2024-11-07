@@ -30,6 +30,12 @@ const routes = [
 		component: () => import("@/components/pages/Books.vue")
 	},
 	{
+		path: "/book/:bookId",
+		name: "Book page",
+		component: () => import("@/components/books/BookPage.vue"),
+		props: true,
+	},
+	{
 		path: "/auth/verify",
 		name: "Change password",
 		component: () => import("@/components/pages/RegistrationConfirmation.vue"),

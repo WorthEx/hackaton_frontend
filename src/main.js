@@ -9,6 +9,8 @@ import VueAxios from "vue-axios";
 import axios from "axios";
 import Vue3Toastify, {toast} from 'vue3-toastify';
 import "vue3-toastify/dist/index.css"
+import * as VueStarRating from "postcss";
+
 
 const app = createApp(App)
 	.use(VueAxios, axios)
@@ -21,5 +23,7 @@ const app = createApp(App)
 		autoClose: 2500,
 		transition: toast.TRANSITIONS.BOUNCE
 	})
+
+app.component("star-rating", VueStarRating.default);
 
 app.mount('#app')

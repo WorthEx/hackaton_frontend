@@ -49,11 +49,11 @@ onBeforeMount(_ => {
 
 .v-enter-active,
 .v-leave-active {
-  //transition: opacity .2s ease-in;
+  transition: opacity .2s ease-in;
 }
 
 .v-enter-from,
 .v-leave-to {
-  //opacity: 0;
+  opacity: 0;
 }
 </style>
