@@ -56,7 +56,7 @@ const {addTofav, delFromFav} = inject('favoriteList')
         <StarRating
             :rating="book.volumeInfo.averageRating ? book.volumeInfo.averageRating : 0" :read-only="true"
             :rounded-corners="true" :show-rating="false" :star-size="15"/>
-        <span class="md:text-[20px] text-[16px] font-medium leading-tight text-white">
+        <span class="md:text-[20px] text-[16px] font-medium leading-tight text-white line-clamp-2">
         {{ book.volumeInfo.title }}
         </span>
         <span v-if="book.volumeInfo.authors" class="md:text-[18px] text-[14px] font-light leading-tight text-white/50">
