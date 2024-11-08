@@ -225,7 +225,7 @@ document.onkeydown = async (e) => {
           </div>
           <BookList v-else :bookList="bookList" :favoriteList="favoriteList" :lastAddedIndex="lastAddedIndex"/>
         </Container>
-        <div v-if="bookList.length !== 0"
+        <div v-if="bookList && bookList.length && bookList.length !== 0"
              :class="!loading && 'ring-2'"
              class="text-white/50 transition-all w-fit hover:text-white md:text-[20px] text-[16px] font-normal
              md:px-4 px-3 py-2 rounded-md ring-white/50 hover:ring-white select-none cursor-pointer active:scale-[98.5%]"
@@ -246,6 +246,10 @@ document.onkeydown = async (e) => {
             </circle>
           </svg>
           <span v-else>Загрузить ещё</span>
+        </div>
+        <div v-else class="text-white md:text-[20px] text-[16px] font-normal flex flex-col items-center justify-center gap-2">
+          <span>Ничего не найдено.</span>
+          <i class="bi bi-emoji-frown md:text-[3rem] text-[1.5rem]"></i>
         </div>
       </div>
     </div>
