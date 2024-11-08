@@ -96,7 +96,6 @@ const loadFavs = async () => {
       const response = await FavoritesAPI.getFavorites()
       if (response.status === 200) {
         favoriteList.value = response.data
-        console.log(response.data)
       }
     } catch (_) {
       toast.error("Не удалось получить список избранного")
@@ -109,7 +108,6 @@ const addTofav = async (bookId) => {
     try {
       const response = await FavoritesAPI.addFavorite(bookId)
       if (response.status === 200) {
-        favoriteList.value = response.data
         await loadFavs()
       }
     } catch (_) {
@@ -124,7 +122,6 @@ const delFromFav = async (bookId) => {
     try {
       const response = await FavoritesAPI.deleteFavorite(bookId)
       if (response.status === 200) {
-        favoriteList.value = response.data
         await loadFavs()
       }
     } catch (_) {
