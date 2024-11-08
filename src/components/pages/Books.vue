@@ -110,12 +110,13 @@ const addTofav = async (bookId) => {
       const response = await FavoritesAPI.addFavorite(bookId)
       if (response.status === 200) {
         favoriteList.value = response.data
+        await loadFavs()
       }
     } catch (_) {
       toast.error("Не удалось обновить список избранного")
     }
   }
-  await loadFavs()
+  
 }
 
 const delFromFav = async (bookId) => {
@@ -124,6 +125,7 @@ const delFromFav = async (bookId) => {
       const response = await FavoritesAPI.deleteFavorite(bookId)
       if (response.status === 200) {
         favoriteList.value = response.data
+        await loadFavs()
       }
     } catch (_) {
       toast.error("Не удалось обновить список избранного")
