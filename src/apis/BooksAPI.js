@@ -8,5 +8,8 @@ export default {
 	},
 	getFiction({startIndex = 0, order = string_constants.order.relevance}) {
 		return GoogleBooksAPI().get(`/volumes?q=subject:fiction&orderBy=${order}&key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}&startIndex=${startIndex}&maxResults=16`)
+	},
+	getBookById(bookId) {
+		return GoogleBooksAPI().get(`/volumes/${bookId}?key=${import.meta.env.VITE_GOOGLE_BOOKS_API_KEY}`)
 	}
 }

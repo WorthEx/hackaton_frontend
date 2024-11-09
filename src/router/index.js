@@ -30,10 +30,14 @@ const routes = [
 		component: () => import("@/components/pages/Books.vue")
 	},
 	{
-		path: "/book/:bookId",
+		path: "/favorites",
+		name: "Favorites",
+		component: () => import("@/components/pages/Favorites.vue")
+	},
+	{
+		path: "/book/:id",
 		name: "Book page",
 		component: () => import("@/components/books/BookPage.vue"),
-		props: true,
 	},
 	{
 		path: "/auth/verify",
@@ -66,8 +70,11 @@ const router = createRouter({
 	},
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
 	loading.showLoading()
+	await new Promise((resolve) => {
+		setTimeout(resolve, 500)
+	})
 	next()
 })
 router.afterEach((to, from) => {

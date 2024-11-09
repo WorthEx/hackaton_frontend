@@ -8,6 +8,8 @@ const props = defineProps({
   isFavorite: Boolean
 })
 
+const {addTofav, delFromFav} = inject('favoriteList')
+
 const openGoogleBooksPage = async () => {
   (props.book.saleInfo.saleability === 'FOR_SALE' &&
       props.book.saleInfo.buyLink) &&
@@ -15,18 +17,14 @@ const openGoogleBooksPage = async () => {
 }
 
 const toBookPage = async () => {
-  await router.push({
-    name: 'Book page',
-    params: {
-      bookId: props.book.id
-    },
-    query: {
-      bookData: JSON.stringify(props.book),
-    },
-  })
+  await router.push(`/book?id=${props.book.id}`)
 }
 
-const {addTofav, delFromFav} = inject('favoriteList')
+const triggerAnimation = (element) => {
+  element.classList.toggle('animate-rotate-y')
+  element.classList.toggle('animate-ease-out')
+  element.classList.toggle('animate-duration-[1400ms]')
+}
 </script>
 
 <template>
@@ -36,25 +34,32 @@ const {addTofav, delFromFav} = inject('favoriteList')
   text-white select-none
   animate-fade-up animate-ease-out hover:shadow-[0px_0px_30px_0px_rgba(212,162,111,1)] transition-all duration-[250ms] ease-out cursor-pointer"
        @click="toBookPage">
-    <div v-if="props.book.volumeInfo.imageLinks && props.book.volumeInfo.imageLinks.thumbnail"
-         class="relative h-[60%] overflow-hidden">
+    <div v-if="props.book.volumeInfo && props.book.volumeInfo.imageLinks && props.book.volumeInfo.imageLinks.thumbnail"
+         class="relative h-[65%] overflow-hidden">
       <img :src="props.book.volumeInfo.imageLinks.thumbnail"
            alt="" class="w-full sm:h-[20rem] h-[10rem] object-cover object-center brightness-[70%] blur-[8px]">
       <img :src="props.book.volumeInfo.imageLinks.thumbnail"
            alt="" class="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 object-cover sm:h-[80%] h-full">
       <i :class="isFavorite ? 'bi-heart-fill' : 'bi-heart'"
          class="bi absolute top-[20px] right-[20px] leading-none text-red-500 cursor-pointer transition-all"
-         @click.stop.prevent="isFavorite ? delFromFav(book.id) : addTofav(book.id)"/>
+         @click.stop.prevent="e => isFavorite ? (async _ => {
+           await delFromFav(props.book.id)
+           triggerAnimation(e.target)
+         })() : (async _ => {
+           await addTofav(props.book.id)
+           triggerAnimation(e.target)
+         })()"/>
     </div>
     <div v-else
          class="bg-neutral-700 animate-pulse animate-duration-[8s] relative h-[60%] overflow-hidden
              grid place-content-center place-items-center">
       <i class="bi bi-ban leading-none color-white/50 text-[80px]"></i>
     </div>
-    <div class="h-[40%] p-2 leading-none flex flex-col justify-between">
+    <div class="h-[35%] p-2 leading-none flex flex-col justify-between">
       <div class="flex flex-col gap-0.5">
         <StarRating
-            :rating="book.volumeInfo.averageRating ? book.volumeInfo.averageRating : 0" :read-only="true"
+            :rating="book.volumeInfo && book.volumeInfo.averageRating ? book.volumeInfo.averageRating : 0"
+            :read-only="true"
             :rounded-corners="true" :show-rating="false" :star-size="15"/>
         <span class="md:text-[20px] text-[16px] font-medium leading-tight text-white line-clamp-2">
         {{ book.volumeInfo.title }}

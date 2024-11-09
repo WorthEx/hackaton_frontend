@@ -41,16 +41,21 @@ const switchSidebar = () => {
                 to="/books">
               Книги
             </RouterLink>
+            <RouterLink v-if="loggedIn"
+                        class="after:block after:h-[1px] hover:after:w-full after:w-0 after:bg-[#d4a26f] after:duration-150 after:transition-all transition-all active:text-[#d4a26f]"
+                        to="/favorites">
+              Избранное
+            </RouterLink>
             <RouterLink
                 :to="loggedIn ? toAccountPageLink() : '/sign-in'"
                 class="hover:text-[#d4a26f] text-white transition-all"><i
-                class="bi bi-person-circle"></i></RouterLink>
+                class="bi bi-person-circle"/></RouterLink>
             <i v-if="loggedIn"
                class="bi bi-box-arrow-right text-[14px] md:text-[18px] hover:text-[#d4a26f] cursor-pointer text-white transition-all"
                @click="_ => {
                  onLogout()
                  logout()
-               }"></i>
+               }"/>
           </nav>
           <i class="bi bi-list text-white md:hidden block text-[20px]" @click="switchSidebar"></i>
         </div>
@@ -74,6 +79,14 @@ const switchSidebar = () => {
           @click="switchSidebar">
         Книги
         <i class="bi bi-arrow-right-short text-[20px]"></i>
+      </RouterLink>
+      <RouterLink
+          v-if="loggedIn"
+          class="w-full p-4 active:ml-1 transition-all flex items-center justify-between hover:ml-1 hover:text-[#d4a26f]
+          animate-fade-down animate-duration-[300ms] animate-ease-out animate-delay-100"
+          to="/favorites" @click="switchSidebar">
+        Избранное
+        <i class="bi bi-arrow-right-short text-[20px]"/>
       </RouterLink>
       <RouterLink
           :to="loggedIn ? toAccountPageLink() : '/sign-in'"

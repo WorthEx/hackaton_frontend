@@ -7,7 +7,7 @@ const props = defineProps({
 })
 
 const calculateFavorite = (bookId) => {
-  return props.favoriteList.some(favRecord => favRecord.bookId === bookId)
+  return props.favoriteList.some(favRecord => favRecord.bookId === bookId || favRecord.id === bookId)
 }
 
 </script>
