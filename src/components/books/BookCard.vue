@@ -34,10 +34,10 @@ const triggerAnimation = (element) => {
   text-white select-none
   animate-fade-up animate-ease-out hover:shadow-[0px_0px_30px_0px_rgba(212,162,111,1)] transition-all duration-[250ms] ease-out cursor-pointer"
        @click="toBookPage">
-    <div v-if="props.book.volumeInfo && props.book.volumeInfo.imageLinks && props.book.volumeInfo.imageLinks.thumbnail"
-         class="relative h-[65%] overflow-hidden">
+    <div v-if="props.book.volumeInfo.imageLinks && props.book.volumeInfo.imageLinks.thumbnail"
+         class="relative overflow-hidden">
       <img :src="props.book.volumeInfo.imageLinks.thumbnail"
-           alt="" class="w-full sm:h-[20rem] h-[10rem] object-cover object-center brightness-[70%] blur-[8px]">
+           alt="" class="w-full sm:h-[15rem] h-[10rem] object-cover object-center brightness-[70%] blur-[8px]">
       <img :src="props.book.volumeInfo.imageLinks.thumbnail"
            alt="" class="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 object-cover sm:h-[80%] h-full">
       <i :class="isFavorite ? 'bi-heart-fill' : 'bi-heart'"
@@ -51,23 +51,25 @@ const triggerAnimation = (element) => {
          })()"/>
     </div>
     <div v-else
-         class="bg-neutral-700 animate-pulse animate-duration-[8s] relative h-[60%] overflow-hidden
+         class="bg-neutral-700 animate-pulse animate-duration-[8s] relative h-[15rem] overflow-hidden
              grid place-content-center place-items-center">
       <i class="bi bi-ban leading-none color-white/50 text-[80px]"></i>
     </div>
-    <div class="h-[35%] p-2 leading-none flex flex-col justify-between">
-      <div class="flex flex-col gap-0.5">
+    <div class="p-2 leading-none flex flex-col gap-4 relative">
+      <div class="flex flex-col gap-[.25rem] min-h-fit md:h-[5em] h-[3em]">
         <StarRating
             :rating="book.volumeInfo && book.volumeInfo.averageRating ? book.volumeInfo.averageRating : 0"
             :read-only="true"
-            :rounded-corners="true" :show-rating="false" :star-size="15"/>
-        <span class="md:text-[20px] text-[16px] font-medium leading-tight text-white line-clamp-2">
+            :rounded-corners="true"
+            :show-rating="false" :star-size="15"/>
+        <span class="md:text-[20px] text-[16px] font-medium leading-none text-white line-clamp-2">
         {{ book.volumeInfo.title }}
         </span>
-        <span v-if="book.volumeInfo.authors" class="md:text-[18px] text-[14px] font-light leading-tight text-white/50">
+        <span v-if="book.volumeInfo.authors"
+              class="md:text-[18px] text-[14px] font-light leading-tight text-white/50 line-clamp-2">
         {{
-            book.volumeInfo.authors.length > 3 ? book.volumeInfo.authors.slice(0, 3).join(", ") : book.volumeInfo.authors.join(", ")
-          }}<span v-if="book.volumeInfo.authors.length > 3">...</span>
+            book.volumeInfo.authors.length > 2 ? book.volumeInfo.authors.slice(0, 2).join(", ") : book.volumeInfo.authors.join(", ")
+          }}<span v-if="book.volumeInfo.authors.length > 2">...</span>
         </span>
         <span v-else class="md:text-[18px] text-[14px] font-light leading-tight text-white/50">
           - Авторы не указаны -

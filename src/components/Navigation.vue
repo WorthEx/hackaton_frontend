@@ -83,7 +83,7 @@ const switchSidebar = () => {
       <RouterLink
           v-if="loggedIn"
           class="w-full p-4 active:ml-1 transition-all flex items-center justify-between hover:ml-1 hover:text-[#d4a26f]
-          animate-fade-down animate-duration-[300ms] animate-ease-out animate-delay-100"
+          animate-fade-down animate-duration-[300ms] animate-ease-out animate-delay-200"
           to="/favorites" @click="switchSidebar">
         Избранное
         <i class="bi bi-arrow-right-short text-[20px]"/>
