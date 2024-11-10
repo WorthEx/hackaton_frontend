@@ -17,7 +17,7 @@ const openGoogleBooksPage = async () => {
 }
 
 const toBookPage = async () => {
-  await router.push(`/book?id=${props.book.id}`)
+  await router.push(`/book/${props.book.id}`)
 }
 
 const triggerAnimation = (element) => {

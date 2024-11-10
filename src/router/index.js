@@ -27,17 +27,18 @@ const routes = [
 	{
 		path: "/books",
 		name: "Books",
-		component: () => import("@/components/pages/Books.vue")
+		component: () => import("@/components/pages/CatalogPage.vue"),
+		props: route => ({q: route.query.q})
 	},
 	{
 		path: "/favorites",
 		name: "Favorites",
-		component: () => import("@/components/pages/Favorites.vue")
+		component: () => import("@/components/pages/Favorites.vue"),
 	},
 	{
 		path: "/book/:id",
 		name: "Book page",
-		component: () => import("@/components/books/BookPage.vue"),
+		component: () => import("@/components/pages/BookPage.vue"),
 	},
 	{
 		path: "/auth/verify",

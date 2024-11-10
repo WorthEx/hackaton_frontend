@@ -5,7 +5,11 @@ import BooksAPI from "@/apis/BooksAPI.js";
 import BookList from "@/components/books/BookList.vue";
 import {toast} from "vue3-toastify";
 import string_constants from "@/string_constants.js";
+import {useRoute} from "vue-router";
+import router from "@/router/index.js";
 
+
+const route = useRoute()
 const {loggedIn} = inject('loggedIn')
 
 const queryText = ref("")
@@ -13,6 +17,7 @@ const persistentQuery = ref("")
 const bookList = ref([])
 const loading = ref(false)
 const orderIndex = ref(1)
+const noResults = ref(false)
 
 const {favoriteList, loadFavs} = inject('favoriteList')
 
@@ -41,6 +46,7 @@ const findBooks = async (query, startIndex) => {
     persistentQuery.value = queryText.value
     bookList.value = []
   }
+  await router.push(`/books?q=${queryText.value.split(" ").join("+")}`)
   try {
     const response = await BooksAPI.search({
       query: query,
@@ -48,6 +54,9 @@ const findBooks = async (query, startIndex) => {
       order: order.value,
     });
     if (response.status === 200) {
+      response.data.totalItems === 0 ?
+          noResults.value = true :
+          noResults.value = false
       startIndex === 0 ?
           bookList.value = response.data.items :
           bookList.value.push(...response.data.items)
@@ -70,6 +79,7 @@ const findFictionBooks = async (startIndex) => {
       order: order.value,
     });
     if (response.status === 200) {
+      noResults.value = false
       startIndex === 0 ?
           bookList.value = response.data.items :
           bookList.value.push(...response.data.items)
@@ -89,7 +99,12 @@ const fetchMore = async () => {
 }
 
 onMounted(async _ => {
-  await findFictionBooks(0)
+  const query = route.query.q;
+  if (query && query !== "") {
+    queryText.value = query
+    persistentQuery.value = query
+    await findBooks(query, 0);
+  } else await findFictionBooks(0)
   await loadFavs()
 })
 
@@ -202,7 +217,7 @@ document.onkeydown = async (e) => {
           </svg>
           <span v-else>Загрузить ещё</span>
         </div>
-        <div v-else-if="persistentQuery !== '' && queryText === ''"
+        <div v-if="noResults === true"
              class="text-white md:text-[20px] text-[16px] font-normal flex flex-col items-center justify-center gap-2">
           <span>Ничего не найдено.</span>
           <i class="bi bi-emoji-frown md:text-[3rem] text-[1.5rem]"></i>

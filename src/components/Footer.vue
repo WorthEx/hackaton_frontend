@@ -31,7 +31,7 @@ import Container from "@/components/Container.vue";
             </RouterLink>
             <RouterLink
                 class="w-fit cursor-pointer transition-colors duration-200 after:mx-auto after:block after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-200 after:ease-out hover:text-white hover:after:w-full"
-                to="/forums">Форумы
+                to="/favorites">Избранное
             </RouterLink>
           </div>
         </section>
