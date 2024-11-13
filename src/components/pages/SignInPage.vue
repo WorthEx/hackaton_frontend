@@ -23,6 +23,7 @@ onMounted(async () => {
 })
 
 const signIn = async () => {
+  localStorage.removeItem(string_constants.accessToken)
   if (loginData.value.username && loginData.value.password) {
     loadingState.value = true
     try {

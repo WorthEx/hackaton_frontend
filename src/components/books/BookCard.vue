@@ -39,7 +39,8 @@ const triggerAnimation = (element) => {
       <img :src="props.book.volumeInfo.imageLinks.thumbnail"
            alt="" class="w-full sm:h-[15rem] h-[10rem] object-cover object-center brightness-[70%] blur-[8px]">
       <img :src="props.book.volumeInfo.imageLinks.thumbnail"
-           alt="" class="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 object-cover sm:h-[80%] h-full">
+           alt=""
+           class="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 object-cover sm:h-[80%] h-full rounded-lg">
       <i :class="isFavorite ? 'bi-heart-fill' : 'bi-heart'"
          class="bi absolute top-[20px] right-[20px] leading-none text-red-500 cursor-pointer transition-all"
          @click.stop.prevent="e => isFavorite ? (async _ => {

@@ -54,6 +54,9 @@ onMounted(async () => {
 
     const userFromToken = jwtDecode(localStorage.getItem(string_constants.accessToken));
     username.value = userFromToken.sub;
+    console.log(new Date(jwtDecode(localStorage.getItem(string_constants.accessToken)).exp * 1000))
+    console.log(jwtDecode(localStorage.getItem(string_constants.accessToken)).exp)
+    console.log(localStorage.getItem(string_constants.accessToken))
     await getUserInfo()
 
     updateLSUserData()

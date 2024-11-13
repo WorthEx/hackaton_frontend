@@ -8,9 +8,7 @@ import string_constants from "@/string_constants.js";
 import {useRoute} from "vue-router";
 import router from "@/router/index.js";
 
-
 const route = useRoute()
-const {loggedIn} = inject('loggedIn')
 
 const queryText = ref("")
 const persistentQuery = ref("")

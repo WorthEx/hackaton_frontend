@@ -26,7 +26,7 @@ const routes = [
 	},
 	{
 		path: "/books",
-		name: "Books",
+		name: "Catalog",
 		component: () => import("@/components/pages/CatalogPage.vue"),
 		props: route => ({q: route.query.q})
 	},
@@ -55,7 +55,7 @@ const routes = [
 const router = createRouter({
 	history: createWebHistory(),
 	routes: routes,
-	scrollBehavior: (to) => {
+	scrollBehavior: (to, from, savedPosition) => {
 		if (to.hash) {
 			return {
 				el: to.hash,
@@ -63,10 +63,17 @@ const router = createRouter({
 			}
 		}
 		return new Promise((resolve) => {
-			resolve({
-				left: 0, top: 0,
-				behavior: "smooth",
-			})
+			if (to.name === "Catalog" && from.name === "Catalog") {
+				resolve({
+					left: 0,
+					behavior: "smooth",
+				})
+			} else {
+				resolve({
+					left: 0, top: 0,
+					behavior: "smooth",
+				})
+			}
 		})
 	},
 })
