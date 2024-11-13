@@ -6,5 +6,8 @@ export default {
 	},
 	getReviewsByBook(bookId) {
 		return API().get(`/review/by-knigga?bookId=${bookId}`)
+	},
+	getReviewsByUser() {
+		return API().get("/user/reviews")
 	}
 }

@@ -11,6 +11,8 @@ import {toast} from "vue3-toastify";
 import {useLoading} from "@/components/loading/useLoading.js";
 import accountAPI from "@/apis/AccountAPI.js";
 import ChangeBioModal from "@/components/modals/ChangeBioModal.vue";
+import ReviewsAPI from "@/apis/ReviewsAPI.js";
+import Review from "@/components/Review.vue";
 
 const username = ref("")
 const firstname = ref("")
@@ -20,6 +22,7 @@ const email = ref("")
 const bio = ref("")
 const level = ref(0)
 const progress = ref(0)
+const reviews = ref([])
 
 const showPen = ref(false)
 const loadingError = ref(false)
@@ -54,10 +57,8 @@ onMounted(async () => {
 
     const userFromToken = jwtDecode(localStorage.getItem(string_constants.accessToken));
     username.value = userFromToken.sub;
-    console.log(new Date(jwtDecode(localStorage.getItem(string_constants.accessToken)).exp * 1000))
-    console.log(jwtDecode(localStorage.getItem(string_constants.accessToken)).exp)
-    console.log(localStorage.getItem(string_constants.accessToken))
     await getUserInfo()
+    await getUserReviews()
 
     updateLSUserData()
 
@@ -85,6 +86,17 @@ const getUserInfo = async () => {
     }
   } catch (_) {
     loadingError.value = true
+  }
+}
+
+const getUserReviews = async () => {
+  try {
+    const response = await ReviewsAPI.getReviewsByUser();
+    if (response.status === 200) {
+      reviews.value = response.data
+    }
+  } catch (error) {
+    toast.error("Не удалось получить Ваши отзывы.")
   }
 }
 
@@ -172,16 +184,16 @@ const updateLSUserData = () => {
     </Transition>
   </Teleport>
   <div
-      class="md:min-h-[calc(100vh-3em)] min-h-[calc(100vh-2em)] relative size-full">
+      class="md:min-h-[calc(100vh-3em)] min-h-[calc(100vh-2em)] h-fit relative size-full">
 
     <img alt=""
          class="absolute z-[-500] inset-0 block object-cover xl:object-center object-right w-full brightness-[70%] md:h-[calc(100vh-3em)] h-[calc(100vh-2em)] select-none pointer-events-none"
          src="@/assets/images/bookshelfs_2_comp.jpg">
 
     <div
-        class="bg-black/45 backdrop-blur-lg md:h-[calc(100vh-3em)] h-[calc(100vh-2em)] overflow-hidden
+        class="bg-black/45 backdrop-blur-lg md:min-h-[calc(100vh-3em)] min-h-[calc(100vh-2em)] overflow-hidden
                  flex flex-col mx-auto w-full max-w-lg lg:max-w-xl xl:max-w-2xl 2xl:max-w-4xl animate-fade-down animate-once animate-ease-out animate-duration-[1500ms]">
-      <section class="w-full md:h-[35%] h-[25%] relative">
+      <section class="w-full md:h-[35vh] h-[25vh] relative">
         <div
             alt="bruh"
             class="size-full object-cover object-center pointer-events-none select-none"
@@ -298,6 +310,13 @@ const updateLSUserData = () => {
               @click="_ => bioCollapsed = !bioCollapsed">{{
               bioCollapsed ? 'Развернуть' : 'Свернуть'
             }}</span>
+        </div>
+      </section>
+      <section class="min-h-12 pt-12 pb-10 md:pl-[100px] pl-[25px] md:pr-8 pr-4 flex flex-col gap-2">
+        <span class="md:text-[24px] text-[20px] text-white font-bold">Мои отзывы</span>
+        <div class="flex flex-col gap-2">
+          <Review v-for="review in reviews" :book-id="review.bookId" :name="review.reviewerName"
+                  :rating="review.rating" :require-book-name="true" :text="review.reviewText"/>
         </div>
       </section>
     </div>
