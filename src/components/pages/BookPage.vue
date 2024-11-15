@@ -223,7 +223,7 @@ onBeforeMount(async _ => {
           <div class="flex flex-col gap-2">
             <span class="md:text-[22px] text-[16px] font-medium select-none">Рейтинг пользователей по данным Google&nbsp;Books</span>
             <span class="md:text-[3rem] text-[2rem] font-semibold text-[#d4a26f]">{{
-                book.volumeInfo.averageRating
+                book.volumeInfo.averageRating ? book.volumeInfo.averageRating : '-'
               }}/5
             </span>
           </div>

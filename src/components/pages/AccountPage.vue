@@ -315,8 +315,9 @@ const updateLSUserData = () => {
       <section class="min-h-12 pt-12 pb-10 md:pl-[100px] pl-[25px] md:pr-8 pr-4 flex flex-col gap-2">
         <span class="md:text-[24px] text-[20px] text-white font-bold">Мои отзывы</span>
         <div class="flex flex-col gap-2">
-          <Review v-for="review in reviews" :book-id="review.bookId" :name="review.reviewerName"
+          <Review v-if="reviews.length > 0" v-for="review in reviews" :book-id="review.bookId" :name="review.reviewerName"
                   :rating="review.rating" :require-book-name="true" :text="review.reviewText"/>
+                  <div class="md:text-[20px] text-[16px] text-white font-light" v-else>Вы еще не оставляли отзывы</div>
         </div>
       </section>
     </div>
