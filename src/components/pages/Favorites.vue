@@ -29,6 +29,10 @@ const fetchFavoriteBooks = async () => {
   loading.value = true
   const favoriteIdObjects = await fetchFavoritesIds();
   let favoriteIds = favoriteIdObjects.map(bookObject => bookObject.bookId)
+  if(favoriteIds.length < 1){
+    loading.value = false
+    return
+  }
   let books = []
   for (const id of favoriteIds) {
     const response = await BooksAPI.getBookById(id)
@@ -61,7 +65,7 @@ onMounted(async _ => {
         <Container>
           <div class="text-white font-bold md:text-[32px] text-[22px] mt-2">Избранное</div>
           <div class="md:h-4 h-2"></div>
-          <div v-if="loading || favoriteList.length === 0"
+          <div v-if="loading"
                class="size-full flex flex-col gap-2 items-center justify-center">
             <svg class="size-[40px] md:size-[60px]" viewBox="0 0 200 200"
                  xmlns="http://www.w3.org/2000/svg">
@@ -79,6 +83,11 @@ onMounted(async _ => {
               </circle>
             </svg>
             <span class="text-white font-light md:text-[24px] text-[16px]">Загрузка</span>
+          </div>
+          <div class="size-full flex flex-col gap-2 items-center justify-center text-white text-center select-none font-light
+    md:text-[22px] text-[14px]"
+          v-else-if="!loading && favoriteList.length === 0">
+          <span>Ваш список избранного пуст</span>
           </div>
           <BookList v-else :bookList="favoriteBookList" :favoriteList="favoriteList"/>
         </Container>
