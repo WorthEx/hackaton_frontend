@@ -94,6 +94,7 @@ const getUserReviews = async () => {
     const response = await ReviewsAPI.getReviewsByUser();
     if (response.status === 200) {
       reviews.value = response.data
+      console.log(response.data)
     }
   } catch (error) {
     toast.error("Не удалось получить Ваши отзывы.")
@@ -187,7 +188,7 @@ const updateLSUserData = () => {
       class="md:min-h-[calc(100vh-3em)] min-h-[calc(100vh-2em)] h-fit relative size-full">
 
     <img alt=""
-         class="absolute z-[-500] inset-0 block object-cover xl:object-center object-right w-full brightness-[70%] md:h-[calc(100vh-3em)] h-[calc(100vh-2em)] select-none pointer-events-none"
+         class="absolute z-[-500] inset-0 block object-cover xl:object-center object-right size-full brightness-[70%] md:min-h-[calc(100vh-3em)] min-h-[calc(100vh-2em)] select-none pointer-events-none"
          src="@/assets/images/bookshelfs_2_comp.jpg">
 
     <div
